@@ -1,0 +1,41 @@
+.snake-part {
+  background-color: greenyellow;
+  border: .5vmin solid #003000;
+  border-radius: 2vmin;
+}
+
+.snake-part-tail {
+  border-radius: 5vmin;
+}
+.snake-part-head {
+  text-align: center;
+}
+
+.snake-part-head::before {
+  content: 'o';
+  color: black;
+}
+
+.snake-part-from-left, .snake-part-to-left {
+  border-left: none;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.snake-part-from-right, .snake-part-to-right {
+  border-right: none;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.snake-part-from-up, .snake-part-to-up {
+  border-top: none;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.snake-part-from-down, .snake-part-to-down {
+  border-bottom: none;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
