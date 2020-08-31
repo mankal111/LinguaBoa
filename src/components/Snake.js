@@ -38,19 +38,19 @@ export default class Snake extends React.Component {
             const { partsList } = this.state;
             switch (e.key) {
                 case 'ArrowUp':
-                    if (partsList[0].y - partsList[1].y !== 0) break;
+                    if (partsList[0].y - partsList[1].y === 1) break;
                     this.setState({directionVector: { x: 0, y: -1}});
                     break;
                 case 'ArrowDown':
-                    if (partsList[0].y - partsList[1].y !== 0) break;
+                    if (partsList[0].y - partsList[1].y === -1) break;
                     this.setState({directionVector: { x: 0, y: 1}});
                     break;
                 case 'ArrowLeft':
-                    if (partsList[0].x - partsList[1].x !== 0) break;
+                    if (partsList[0].x - partsList[1].x === 1) break;
                     this.setState({directionVector: { x: -1, y: 0}});
                     break;
                 case 'ArrowRight':
-                    if (partsList[0].x - partsList[1].x !== 0) break;
+                    if (partsList[0].x - partsList[1].x === -1) break;
                     this.setState({directionVector: { x: 1, y: 0}});
                     break;
             }
