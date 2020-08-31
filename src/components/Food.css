@@ -1,0 +1,6 @@
+.food {
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 7px 7px 14px -5px rgba(0,0,0,0.64);
+    border: .5vmin solid #003000;
+}

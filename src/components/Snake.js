@@ -6,15 +6,59 @@ export default class Snake extends React.Component {
     constructor(props) {
         super(props);
         const {x, y} = this.props;
-        this.state = {
+        this.initialState = {
             partsList: [
                 {x, y},
                 {x: x+1, y},
-                {x: x+2, y},
-                {x: x+2, y: y-1},
-                {x: x+2, y: y-2},
-            ] 
+                {x: x+2, y}
+            ],
+            length: 3,
+            directionVector: { x: 0, y: 0 }, 
         }
+        this.state = this.initialState;
+        this.update = this.update.bind(this);
+        this.move = this.move.bind(this);
+        this.die = this.die.bind(this);
+        this.eat = this.eat.bind(this);
+    }
+
+    update(now) {
+        if (now - this.before > 100) {
+            this.move();
+            this.before = now;
+        }
+        this.animationID = window.requestAnimationFrame(this.update);  
+    }
+
+    componentDidMount() { 
+        this.before = 0;
+        this.animationID = window.requestAnimationFrame(this.update);
+        
+        window.addEventListener('keydown', e => {
+            const { directionVector } = this.state;
+            switch (e.key) {
+                case 'ArrowUp':
+                    if (directionVector.y !== 0) break;
+                    this.setState({directionVector: { x: 0, y: -1}});
+                    break;
+                case 'ArrowDown':
+                    if (directionVector.y !== 0) break;
+                    this.setState({directionVector: { x: 0, y: 1}});
+                    break;
+                case 'ArrowLeft':
+                    if (directionVector.x !== 0) break;
+                    this.setState({directionVector: { x: -1, y: 0}});
+                    break;
+                case 'ArrowRight':
+                    if (directionVector.x !== 0) break;
+                    this.setState({directionVector: { x: 1, y: 0}});
+                    break;
+            }
+        });
+    }
+    
+    componentWillUnmount() {
+        window.cancelAnimationFrame(this.animationID);
     }
 
     getDirectionFromCoordinates(fromCoordinates, toCoordinates) {
@@ -44,7 +88,45 @@ export default class Snake extends React.Component {
             type={type}
             from={this.getDirectionFromCoordinates(coordinates, prevCoordinates)}
             to={this.getDirectionFromCoordinates(coordinates, nextCoordinates)}
+            key={`${coordinates.x}-${coordinates.y}`}
         />
+    }
+
+    move() {
+        const { partsList, length, directionVector } = this.state;
+        if (directionVector.x === 0 && directionVector.y === 0) return;
+        const { foodPositions, newSnakePartPositions } = this.props;
+
+        const oldHeadPos = partsList[0];
+        const newHeadPos = {
+            x: oldHeadPos.x + directionVector.x,
+            y: oldHeadPos.y + directionVector.y,
+        }
+
+        const ateOwnPart = partsList.some(
+            part => part.x === newHeadPos.x && part.y === newHeadPos.y
+        );
+        if (ateOwnPart) {
+            this.die();
+            return;
+        }
+        const shouldGrow = length > partsList.length;
+        const newSnakeBody = shouldGrow ? partsList : partsList.slice(0, -1);
+        this.setState({partsList: [newHeadPos, ...newSnakeBody]});
+        newSnakePartPositions( partsList );
+
+        const foodIndex = foodPositions.findIndex(food => (food.x === newHeadPos.x) && (food.y === newHeadPos.y));
+        if (foodIndex !== -1) this.eat(foodIndex);
+    }
+
+    eat(foodIndex) {
+        this.setState({length: this.state.length + 2});
+        this.props.eat(foodIndex);
+    }
+
+    die() {
+        this.setState(this.initialState);
+        this.props.die();
     }
 
     render() {
