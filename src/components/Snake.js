@@ -23,7 +23,7 @@ export default class Snake extends React.Component {
     }
 
     update(now) {
-        if (now - this.before > 100) {
+        if (now - this.before > 1000 / this.state.length + 100) {
             this.move();
             this.before = now;
         }
@@ -35,22 +35,22 @@ export default class Snake extends React.Component {
         this.animationID = window.requestAnimationFrame(this.update);
         
         window.addEventListener('keydown', e => {
-            const { directionVector } = this.state;
+            const { partsList } = this.state;
             switch (e.key) {
                 case 'ArrowUp':
-                    if (directionVector.y !== 0) break;
+                    if (partsList[0].y - partsList[1].y !== 0) break;
                     this.setState({directionVector: { x: 0, y: -1}});
                     break;
                 case 'ArrowDown':
-                    if (directionVector.y !== 0) break;
+                    if (partsList[0].y - partsList[1].y !== 0) break;
                     this.setState({directionVector: { x: 0, y: 1}});
                     break;
                 case 'ArrowLeft':
-                    if (directionVector.x !== 0) break;
+                    if (partsList[0].x - partsList[1].x !== 0) break;
                     this.setState({directionVector: { x: -1, y: 0}});
                     break;
                 case 'ArrowRight':
-                    if (directionVector.x !== 0) break;
+                    if (partsList[0].x - partsList[1].x !== 0) break;
                     this.setState({directionVector: { x: 1, y: 0}});
                     break;
             }
@@ -95,7 +95,7 @@ export default class Snake extends React.Component {
     move() {
         const { partsList, length, directionVector } = this.state;
         if (directionVector.x === 0 && directionVector.y === 0) return;
-        const { foodPositions, newSnakePartPositions } = this.props;
+        const { foodPositions, newSnakePartPositions, boardWidth, boardHeight } = this.props;
 
         const oldHeadPos = partsList[0];
         const newHeadPos = {
@@ -106,10 +106,14 @@ export default class Snake extends React.Component {
         const ateOwnPart = partsList.some(
             part => part.x === newHeadPos.x && part.y === newHeadPos.y
         );
-        if (ateOwnPart) {
+        const outsideBoard = newHeadPos.x <= 0 || newHeadPos.x > boardWidth ||
+            newHeadPos.y <= 0 || newHeadPos.y > boardHeight;
+
+        if (ateOwnPart || outsideBoard) {
             this.die();
             return;
         }
+
         const shouldGrow = length > partsList.length;
         const newSnakeBody = shouldGrow ? partsList : partsList.slice(0, -1);
         this.setState({partsList: [newHeadPos, ...newSnakeBody]});

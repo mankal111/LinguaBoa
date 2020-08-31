@@ -24,8 +24,8 @@ export default class Board extends React.Component {
         let newFoodPosition, positionIsOccupied;
         do {
             newFoodPosition = {
-                x: Math.floor(Math.random() * 21),
-                y: Math.floor(Math.random() * 21),
+                x: Math.floor(Math.random() * 20 + 1),
+                y: Math.floor(Math.random() * 20 + 1),
             }
             positionIsOccupied = this.state.snakePositions.some(
                 part => part.x === newFoodPosition.x && part.y === newFoodPosition.y
@@ -50,6 +50,8 @@ export default class Board extends React.Component {
                 foodPositions={foodPositions}
                 eat={this.eatFood}
                 die={this.reset}
+                boardWidth={21}
+                boardHeight={21}
             />
             {this.state.foodPositions.map(pos => (<Food x={pos.x} y={pos.y} key={`${pos.x}-${pos.y}`}/>))}
         </div>;
