@@ -41,9 +41,11 @@ export default class Board extends React.Component {
     }
 
     eatFood(index) {
-        const foodPositions = [ ...this.state.foodPositions ];
-        foodPositions.splice(index, 1); 
-        this.setState({ foodPositions });
+        // const foodPositions = [ ...this.state.foodPositions ];
+        // foodPositions.splice(index, 1); 
+        this.setState({ foodPositions: [] });
+        this.generateFood();
+        this.generateFood();
         this.generateFood();
     }
 
