@@ -20,17 +20,20 @@ export default class Board extends React.Component {
 
     componentDidMount() {
         this.generateFood();
+        this.generateFood();
+        this.generateFood();
     }
 
     generateFood() {
-        const { foodPositions } = this.state;
+        const { foodPositions, snakePositions } = this.state;
+        const occupiedPositions = [ ...foodPositions, ...snakePositions ];
         let newFoodPosition, positionIsOccupied;
         do {
             newFoodPosition = {
                 x: Math.floor(Math.random() * 20 + 1),
                 y: Math.floor(Math.random() * 20 + 1),
             }
-            positionIsOccupied = this.state.snakePositions.some(
+            positionIsOccupied = occupiedPositions.some(
                 part => part.x === newFoodPosition.x && part.y === newFoodPosition.y
             );
         } while(positionIsOccupied);
@@ -45,7 +48,13 @@ export default class Board extends React.Component {
     }
 
     reset() {
-        this.setState({ foodPositions: [] });
+        const [x, y] = [10, 10];
+        this.setState({
+            foodPositions: [],
+            snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
+        });
+        this.generateFood();
+        this.generateFood();
         this.generateFood();
     }
 
