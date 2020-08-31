@@ -6,21 +6,24 @@ import Food from "./Food";
 export default class Board extends React.Component {
     constructor(props) {
         super(props);
-        const [x, y] = [15, 15];
+        const [x, y] = [10, 10];
         this.state = {
-            foodPositions: [{x, y}],
+            foodPositions: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
         }
         this.eatFood = this.eatFood.bind(this);
+        this.generateFood = this.generateFood.bind(this);
         this.reset = this.reset.bind(this);
         this.newSnakePartPositions =
             snakePositions => this.setState({ snakePositions });
     }
 
-    eatFood(index) {
-        const foodPositions = [ ...this.state.foodPositions ];
-        foodPositions.splice(index, 1);
+    componentDidMount() {
+        this.generateFood();
+    }
 
+    generateFood() {
+        const { foodPositions } = this.state;
         let newFoodPosition, positionIsOccupied;
         do {
             newFoodPosition = {
@@ -31,14 +34,19 @@ export default class Board extends React.Component {
                 part => part.x === newFoodPosition.x && part.y === newFoodPosition.y
             );
         } while(positionIsOccupied);
-            
         this.setState({ foodPositions: [newFoodPosition, ...foodPositions] });
     }
 
+    eatFood(index) {
+        const foodPositions = [ ...this.state.foodPositions ];
+        foodPositions.splice(index, 1); 
+        this.setState({ foodPositions });
+        this.generateFood();
+    }
+
     reset() {
-        this.setState({
-            foodPositions: [{x: 15, y: 15}]
-        });
+        this.setState({ foodPositions: [] });
+        this.generateFood();
     }
 
     render() {
