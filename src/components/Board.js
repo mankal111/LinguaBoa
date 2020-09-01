@@ -2,13 +2,16 @@ import React from "react";
 import "./Board.css";
 import Snake from "./Snake.js"
 import Food from "./Food";
+import { words, symbols } from "../words";
 
 export default class Board extends React.Component {
     constructor(props) {
         super(props);
         const [x, y] = [10, 10];
         this.state = {
-            foodPositions: [],
+            practiceLanguage: 'german',
+            practiceSubject: 'numbers',
+            foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
         }
         this.eatFood = this.eatFood.bind(this);
@@ -20,59 +23,77 @@ export default class Board extends React.Component {
 
     componentDidMount() {
         this.generateFood();
-        this.generateFood();
-        this.generateFood();
     }
 
     generateFood() {
-        const { foodPositions, snakePositions } = this.state;
-        const occupiedPositions = [ ...foodPositions, ...snakePositions ];
-        let newFoodPosition, positionIsOccupied;
-        do {
-            newFoodPosition = {
-                x: Math.floor(Math.random() * 20 + 1),
-                y: Math.floor(Math.random() * 20 + 1),
-            }
-            positionIsOccupied = occupiedPositions.some(
-                part => part.x === newFoodPosition.x && part.y === newFoodPosition.y
-            );
-        } while(positionIsOccupied);
-        this.setState({ foodPositions: [newFoodPosition, ...foodPositions] });
+        const { foodList, snakePositions, practiceSubject, practiceLanguage } = this.state;
+        const occupiedPositions = [ ...foodList, ...snakePositions ];
+        let newFood, positionIsOccupied, wordAlreadyChosen, newFoodList = [];
+        for(let i = 0; i < 3; i++) {
+            do {
+                newFood = {
+                    x: Math.floor(Math.random() * 20 + 1),
+                    y: Math.floor(Math.random() * 20 + 1),
+                }
+                positionIsOccupied = occupiedPositions.some(
+                    part => part.x === newFood.x && part.y === newFood.y
+                );
+            } while(positionIsOccupied);
+
+            do {
+                newFood.wordIndex = Math.floor(Math.random() * symbols[practiceSubject].length);
+                wordAlreadyChosen = newFoodList.some(word => word.wordIndex === newFood.wordIndex);
+            } while(wordAlreadyChosen);
+            newFoodList.push(newFood);
+        }
+        this.setState({ foodList: newFoodList });
+        var msg = new SpeechSynthesisUtterance();
+        msg.lang = words[practiceLanguage].code;
+        msg.text = words[practiceLanguage][practiceSubject][newFoodList[0].wordIndex];
+        console.log(words[practiceLanguage][practiceSubject][newFoodList[0].wordIndex])
+        window.speechSynthesis.speak(msg);
     }
 
-    eatFood(index) {
-        // const foodPositions = [ ...this.state.foodPositions ];
-        // foodPositions.splice(index, 1); 
-        this.setState({ foodPositions: [] });
-        this.generateFood();
-        this.generateFood();
+    eatFood() {
+        this.setState({ foodList: [] });
         this.generateFood();
     }
 
     reset() {
         const [x, y] = [10, 10];
         this.setState({
-            foodPositions: [],
+            foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
         });
-        this.generateFood();
-        this.generateFood();
         this.generateFood();
     }
 
     render() {
-        const { foodPositions } = this.state;
+        const { foodList, practiceLanguage, practiceSubject } = this.state;
+        const practiceWord = foodList[0] && words[practiceLanguage][practiceSubject][foodList[0].wordIndex];
+        
         return <div className="board">
             <Snake
                 x={10} y={10}
                 newSnakePartPositions={this.newSnakePartPositions}
-                foodPositions={foodPositions}
+                foodList={foodList}
                 eat={this.eatFood}
                 die={this.reset}
                 boardWidth={21}
                 boardHeight={21}
             />
-            {this.state.foodPositions.map(pos => (<Food x={pos.x} y={pos.y} key={`${pos.x}-${pos.y}`}/>))}
+            {foodList.map(
+                food => (
+                    <Food
+                        x={food.x} y={food.y}
+                        key={`${food.x}-${food.y}`}
+                        language={practiceLanguage}
+                        subject={practiceSubject}
+                        wordIndex={food.wordIndex}
+                    />
+                )
+            )}
+            <div>{practiceWord}</div>
         </div>;
     }
 }
