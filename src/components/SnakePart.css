@@ -11,11 +11,6 @@
   text-align: center;
 }
 
-.snake-part-head::before {
-  content: 'o';
-  color: black;
-}
-
 .snake-part-from-left, .snake-part-to-left {
   border-left: none;
   border-top-left-radius: 0px;
