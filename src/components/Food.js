@@ -6,7 +6,7 @@ import { symbols } from "../words";
 export default class SnakePart extends React.Component {
 
     render() {
-        const {x, y} = this.props;
+        const {x, y, subject} = this.props;
         return <div
             style={{
                 gridRowStart: y,
@@ -14,7 +14,7 @@ export default class SnakePart extends React.Component {
             }}
             className={`food`}
         >
-            {symbols.numbers[this.props.wordIndex]}
+            {symbols[subject][this.props.wordIndex]}
         </div>;
     }
 }
