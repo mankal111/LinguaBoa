@@ -1,5 +1,5 @@
 import React from "react";
-import "./Board.css";
+import "./Game.css";
 import Snake from "./Snake.js"
 import Food from "./Food";
 import { words, symbols } from "../words";
@@ -10,7 +10,7 @@ export default class Board extends React.Component {
         const [x, y] = [10, 10];
         this.state = {
             practiceLanguage: 'german',
-            practiceSubject: 'numbers',
+            practiceSubject: 'animals',
             foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
         }
