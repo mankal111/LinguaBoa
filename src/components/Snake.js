@@ -95,7 +95,7 @@ export default class Snake extends React.Component {
     move() {
         const { partsList, length, directionVector } = this.state;
         if (directionVector.x === 0 && directionVector.y === 0) return;
-        const { foodPositions, newSnakePartPositions, boardWidth, boardHeight } = this.props;
+        const { foodList, newSnakePartPositions, boardWidth, boardHeight } = this.props;
 
         const oldHeadPos = partsList[0];
         const newHeadPos = {
@@ -119,12 +119,14 @@ export default class Snake extends React.Component {
         this.setState({partsList: [newHeadPos, ...newSnakeBody]});
         newSnakePartPositions( partsList );
 
-        const foodIndex = foodPositions
+        const foodIndex = foodList
             .findIndex(food => (food.x === newHeadPos.x) && (food.y === newHeadPos.y));
         if (foodIndex !== -1) this.eat(foodIndex);
     }
 
     eat(foodIndex) {
+        // To avoid extra variables we define the first element as the correct element
+        if (foodIndex !== 0) this.die();
         this.setState({length: this.state.length + 2});
         this.props.eat(foodIndex);
     }
