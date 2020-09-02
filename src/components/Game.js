@@ -88,6 +88,7 @@ export default class Board extends React.Component {
         this.setState({
             foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
+            directionVector: {x: 0, y: 0},
         });
         this.generateFood();
     }
