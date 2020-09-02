@@ -2,6 +2,7 @@
   background-color: greenyellow;
   border: .5vmin solid #003000;
   border-radius: 2vmin;
+  pointer-events: none;
 }
 
 .snake-part-tail {
