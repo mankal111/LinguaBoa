@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/linguaboa/static/css/main.48b274bd.chunk.css",
+    "main.js": "/linguaboa/static/js/main.93429525.chunk.js",
+    "main.js.map": "/linguaboa/static/js/main.93429525.chunk.js.map",
+    "runtime-main.js": "/linguaboa/static/js/runtime-main.cfe35ea1.js",
+    "runtime-main.js.map": "/linguaboa/static/js/runtime-main.cfe35ea1.js.map",
+    "static/js/2.146c4326.chunk.js": "/linguaboa/static/js/2.146c4326.chunk.js",
+    "static/js/2.146c4326.chunk.js.map": "/linguaboa/static/js/2.146c4326.chunk.js.map",
+    "index.html": "/linguaboa/index.html",
+    "precache-manifest.660364570659022e8745d14e1d089f92.js": "/linguaboa/precache-manifest.660364570659022e8745d14e1d089f92.js",
+    "service-worker.js": "/linguaboa/service-worker.js",
+    "static/css/main.48b274bd.chunk.css.map": "/linguaboa/static/css/main.48b274bd.chunk.css.map",
+    "static/js/2.146c4326.chunk.js.LICENSE.txt": "/linguaboa/static/js/2.146c4326.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cfe35ea1.js",
+    "static/js/2.146c4326.chunk.js",
+    "static/css/main.48b274bd.chunk.css",
+    "static/js/main.93429525.chunk.js"
+  ]
+}
