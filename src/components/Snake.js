@@ -24,6 +24,7 @@ export default class Snake extends React.Component {
 
     update(now) {
         if (now - this.before > 1000 / this.state.length + 100) {
+            this.setState({directionVector: this.props.directionVector})
             this.move();
             this.before = now;
         }
@@ -33,28 +34,6 @@ export default class Snake extends React.Component {
     componentDidMount() { 
         this.before = 0;
         this.animationID = window.requestAnimationFrame(this.update);
-        
-        window.addEventListener('keydown', e => {
-            const { partsList } = this.state;
-            switch (e.key) {
-                case 'ArrowUp':
-                    if (partsList[0].y - partsList[1].y === 1) break;
-                    this.setState({directionVector: { x: 0, y: -1}});
-                    break;
-                case 'ArrowDown':
-                    if (partsList[0].y - partsList[1].y === -1) break;
-                    this.setState({directionVector: { x: 0, y: 1}});
-                    break;
-                case 'ArrowLeft':
-                    if (partsList[0].x - partsList[1].x === 1) break;
-                    this.setState({directionVector: { x: -1, y: 0}});
-                    break;
-                case 'ArrowRight':
-                    if (partsList[0].x - partsList[1].x === -1) break;
-                    this.setState({directionVector: { x: 1, y: 0}});
-                    break;
-            }
-        });
     }
     
     componentWillUnmount() {

@@ -13,16 +13,40 @@ export default class Board extends React.Component {
             practiceSubject: 'animals',
             foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
+            directionVector: {x: 0, y: 0}
         }
         this.eatFood = this.eatFood.bind(this);
         this.generateFood = this.generateFood.bind(this);
         this.reset = this.reset.bind(this);
+        this.clickControl = this.clickControl.bind(this);
         this.newSnakePartPositions =
             snakePositions => this.setState({ snakePositions });
     }
 
     componentDidMount() {
         this.generateFood();
+
+        window.addEventListener('keydown', e => {
+            const { snakePositions } = this.state;
+            switch (e.key) {
+                case 'ArrowUp':
+                    if (snakePositions[0].y - snakePositions[1].y === 1) break;
+                    this.setState({directionVector: { x: 0, y: -1}});
+                    break;
+                case 'ArrowDown':
+                    if (snakePositions[0].y - snakePositions[1].y === -1) break;
+                    this.setState({directionVector: { x: 0, y: 1}});
+                    break;
+                case 'ArrowLeft':
+                    if (snakePositions[0].x - snakePositions[1].x === 1) break;
+                    this.setState({directionVector: { x: -1, y: 0}});
+                    break;
+                case 'ArrowRight':
+                    if (snakePositions[0].x - snakePositions[1].x === -1) break;
+                    this.setState({directionVector: { x: 1, y: 0}});
+                    break;
+            }
+        });
     }
 
     generateFood() {
@@ -68,11 +92,29 @@ export default class Board extends React.Component {
         this.generateFood();
     }
 
+    clickControl(event) {
+        let { directionVector } = this.state;
+        const rect = event.target.children[0].getBoundingClientRect();
+        const direction = {
+            up: rect.top > event.clientY,
+            down: rect.bottom < event.clientY,
+            left: rect.left > event.clientX,
+            right: rect.right < event.clientX,
+        }
+        let newDirectionVector = {x: 0, y: 0};
+        if (directionVector.y === 0 && rect.top > event.clientY) newDirectionVector.y = -1;
+        else if (directionVector.y === 0 && rect.bottom < event.clientY) newDirectionVector.y = 1;
+        else if (directionVector.x === 0 && rect.left > event.clientX) newDirectionVector.x = -1;
+        else if (directionVector.x === 0 && rect.right < event.clientX) newDirectionVector.x = 1;
+        console.log(directionVector, newDirectionVector);
+        this.setState({directionVector: newDirectionVector});
+    }
+
     render() {
-        const { foodList, practiceLanguage, practiceSubject } = this.state;
+        const { foodList, practiceLanguage, practiceSubject, directionVector } = this.state;
         const practiceWord = foodList[0] && words[practiceLanguage][practiceSubject][foodList[0].wordIndex];
         
-        return <div className="board">
+        return <div className="board" onClick={this.clickControl}>
             <Snake
                 x={10} y={10}
                 newSnakePartPositions={this.newSnakePartPositions}
@@ -81,6 +123,7 @@ export default class Board extends React.Component {
                 die={this.reset}
                 boardWidth={21}
                 boardHeight={21}
+                directionVector={directionVector}
             />
             {foodList.map(
                 food => (
