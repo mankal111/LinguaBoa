@@ -23,5 +23,25 @@ export const words = {
         code: 'el-GR',
         numbers: ['μηδέν', 'ένα', 'δύο', 'τρία', 'τέσσερα', 'πέντε', 'έξι', 'εφτά', 'οχτώ', 'εννιά', 'δέκα'],
         animals: ['αρκούδα', 'άλογο', 'ελέφαντας', 'γάτα', 'πουλί', 'ποντίκι'],
+    },
+    dutch: {
+        code: 'nl',
+        numbers: ['nul', 'een', 'twee', 'drie', 'vier', 'vijf', 'zes', 'zeven', 'acht', 'negen', 'tien'],
+        animals: ['beer', 'paard', 'olifant', 'kat', 'vogel', 'muis'],
+    },
+    danish: {
+        code: 'da',
+        numbers: ['nul', 'en', 'to', 'tre', 'fire', 'fem', 'seks', 'syv', 'otte', 'ni', 'ti'],
+        animals: ['bjørn', 'hest', 'elefant', 'kat', 'fugl', 'mus'],
+    },
+    polish: {
+        code: 'pl',
+        numbers: ['zero', 'jeden', 'dwa', 'trzy', 'cztery', 'pięć', 'sześć', 'siedem', 'osiem', 'dziewięć', 'dziesięć'],
+        animals: ['niedźwiedź', 'koń', 'słoń', 'kot', 'ptak', 'mysz'],
+    },
+    chinese: {
+        code: 'zh',
+        numbers: ['零', '一', '两个', '三个', '四', '五', '六', '七', '八', '九', '十'], 
+        animals: ['熊', '马', '大象', '猫', '鸟', '老鼠'], 
     }
 }
