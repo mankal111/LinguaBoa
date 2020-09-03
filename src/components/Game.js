@@ -15,7 +15,6 @@ export default class Board extends React.Component {
         }
         this.eatFood = this.eatFood.bind(this);
         this.generateFood = this.generateFood.bind(this);
-        this.reset = this.reset.bind(this);
         this.clickControl = this.clickControl.bind(this);
         this.newSnakePartPositions =
             snakePositions => this.setState({ snakePositions });
@@ -81,16 +80,6 @@ export default class Board extends React.Component {
         this.generateFood();
     }
 
-    reset() {
-        const [x, y] = [10, 10];
-        this.setState({
-            foodList: [],
-            snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
-            directionVector: {x: 0, y: 0},
-        });
-        this.generateFood();
-    }
-
     clickControl(event) {
         const { snakePositions, directionVector } = this.state;
         const rect = event.target.children[0].getBoundingClientRect();
@@ -122,7 +111,7 @@ export default class Board extends React.Component {
 
     render() {
         const { foodList, directionVector } = this.state;
-        const { language, subject } = this.props;
+        const { language, subject, exit } = this.props;
         const practiceWord = foodList[0] && words[language][subject][foodList[0].wordIndex];
         
         return <div className="board" onClick={this.clickControl}>
@@ -131,7 +120,7 @@ export default class Board extends React.Component {
                 newSnakePartPositions={this.newSnakePartPositions}
                 foodList={foodList}
                 eat={this.eatFood}
-                die={this.reset}
+                die={exit}
                 boardWidth={21}
                 boardHeight={21}
                 directionVector={directionVector}
