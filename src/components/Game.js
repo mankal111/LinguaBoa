@@ -94,20 +94,31 @@ export default class Board extends React.Component {
     }
 
     clickControl(event) {
-        let { directionVector } = this.state;
+        const { snakePositions, directionVector } = this.state;
         const rect = event.target.children[0].getBoundingClientRect();
-        const direction = {
+        const headDirection = {
+            horizontal: snakePositions[0].y - snakePositions[1].y === 0,
+            vertical: snakePositions[0].x - snakePositions[1].x === 0,
+        }
+        const clickDirection = {
             up: rect.top > event.clientY,
             down: rect.bottom < event.clientY,
             left: rect.left > event.clientX,
             right: rect.right < event.clientX,
         }
         let newDirectionVector = {x: 0, y: 0};
-        if (directionVector.y === 0 && rect.top > event.clientY) newDirectionVector.y = -1;
-        else if (directionVector.y === 0 && rect.bottom < event.clientY) newDirectionVector.y = 1;
-        else if (directionVector.x === 0 && rect.left > event.clientX) newDirectionVector.x = -1;
-        else if (directionVector.x === 0 && rect.right < event.clientX) newDirectionVector.x = 1;
-        console.log(directionVector, newDirectionVector);
+        if (headDirection.horizontal)
+            if (directionVector.x === 0 && directionVector.y === 0) 
+                newDirectionVector.x = -1;
+            else if (clickDirection.up)
+                newDirectionVector.y = -1;
+            else newDirectionVector.y = 1;
+        else if (headDirection.vertical)
+            if (clickDirection.left)
+                newDirectionVector.x = -1;
+            else newDirectionVector.x = 1;
+        //TODO: triple click bug. triple click kills snake
+        //console.log(snakePositions, headDirection, clickDirection, directionVector, newDirectionVector);
         this.setState({directionVector: newDirectionVector});
     }
 
