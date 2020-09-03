@@ -13,7 +13,7 @@ export default class Board extends React.Component {
             practiceSubject: 'animals',
             foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
-            directionVector: {x: 0, y: 0}
+            directionVector: {x: 0, y: 0},
         }
         this.eatFood = this.eatFood.bind(this);
         this.generateFood = this.generateFood.bind(this);
