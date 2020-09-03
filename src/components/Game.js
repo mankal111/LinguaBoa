@@ -9,8 +9,6 @@ export default class Board extends React.Component {
         super(props);
         const [x, y] = [10, 10];
         this.state = {
-            practiceLanguage: 'german',
-            practiceSubject: 'animals',
             foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
             directionVector: {x: 0, y: 0},
@@ -50,7 +48,8 @@ export default class Board extends React.Component {
     }
 
     generateFood() {
-        const { foodList, snakePositions, practiceSubject, practiceLanguage } = this.state;
+        const { foodList, snakePositions } = this.state;
+        const { subject, language } = this.props;
         const occupiedPositions = [ ...foodList, ...snakePositions ];
         let newFood, positionIsOccupied, wordAlreadyChosen, newFoodList = [];
         for(let i = 0; i < 3; i++) {
@@ -65,16 +64,15 @@ export default class Board extends React.Component {
             } while(positionIsOccupied);
 
             do {
-                newFood.wordIndex = Math.floor(Math.random() * symbols[practiceSubject].length);
+                newFood.wordIndex = Math.floor(Math.random() * symbols[subject].length);
                 wordAlreadyChosen = newFoodList.some(word => word.wordIndex === newFood.wordIndex);
             } while(wordAlreadyChosen);
             newFoodList.push(newFood);
         }
         this.setState({ foodList: newFoodList });
         var msg = new SpeechSynthesisUtterance();
-        msg.lang = words[practiceLanguage].code;
-        msg.text = words[practiceLanguage][practiceSubject][newFoodList[0].wordIndex];
-        console.log(words[practiceLanguage][practiceSubject][newFoodList[0].wordIndex])
+        msg.lang = words[language].code;
+        msg.text = words[language][subject][newFoodList[0].wordIndex];
         window.speechSynthesis.speak(msg);
     }
 
@@ -123,8 +121,9 @@ export default class Board extends React.Component {
     }
 
     render() {
-        const { foodList, practiceLanguage, practiceSubject, directionVector } = this.state;
-        const practiceWord = foodList[0] && words[practiceLanguage][practiceSubject][foodList[0].wordIndex];
+        const { foodList, directionVector } = this.state;
+        const { language, subject } = this.props;
+        const practiceWord = foodList[0] && words[language][subject][foodList[0].wordIndex];
         
         return <div className="board" onClick={this.clickControl}>
             <Snake
@@ -142,8 +141,8 @@ export default class Board extends React.Component {
                     <Food
                         x={food.x} y={food.y}
                         key={`${food.x}-${food.y}`}
-                        language={practiceLanguage}
-                        subject={practiceSubject}
+                        language={language}
+                        subject={subject}
                         wordIndex={food.wordIndex}
                     />
                 )

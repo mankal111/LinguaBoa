@@ -6,12 +6,12 @@ import './App.css';
 function App() {
   const [language, setLanguage] = useState(undefined);
   const [subject, setSubject] = useState(undefined);
-
+  
   return (
     <div className="App">
       {
-        language && subject ?
-        <Game /> :
+        (language && subject) ?
+        <Game language={language} subject={subject} /> :
         <Menu returnLanguage={setLanguage} returnSubject={setSubject} />
       }
     </div>
