@@ -4,15 +4,14 @@ function Menu(props) {
     const [language, setLanguage] = useState(undefined);
     const [subject, setSubject] = useState(undefined);
     const { returnLanguage, returnSubject } = props;
+    const clickHandler = () => {
+        returnLanguage('english');
+        returnSubject('numbers');
+    }
+
     return (
       <div className="Menu">
-            <button
-                onClick={
-                    () => {
-                        returnLanguage('english');
-                        returnSubject('numbers');
-                    }
-                }>
+            <button onClick={clickHandler}>
                 Play
             </button>
       </div>
