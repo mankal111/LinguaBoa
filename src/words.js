@@ -43,5 +43,10 @@ export const words = {
         code: 'zh',
         numbers: ['零', '一', '两个', '三个', '四', '五', '六', '七', '八', '九', '十'], 
         animals: ['熊', '马', '大象', '猫', '鸟', '老鼠'], 
+    },
+    turkish: {
+        code: 'tr',
+        numbers: ['sıfır', 'bir', 'iki', 'üç', 'dört', 'beş', 'altı', 'yedi', 'sekiz', 'dokuz', 'on'],
+        animals: ['ayı', 'at', 'fil', 'kedi', 'kuş', 'far'],
     }
 }
