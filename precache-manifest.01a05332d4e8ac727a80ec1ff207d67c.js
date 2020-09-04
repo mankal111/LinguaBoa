@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1bba1083806e9b0174d3887356afd24d",
+    "revision": "c5c3037e0c28b2d8c43e70b5e74f28a4",
     "url": "/linguaboa/index.html"
   },
   {
-    "revision": "668ab10885904f2dbc2f",
-    "url": "/linguaboa/static/css/main.48b274bd.chunk.css"
+    "revision": "4ffd9fedb6e209140075",
+    "url": "/linguaboa/static/css/main.a90a987b.chunk.css"
   },
   {
     "revision": "374adccc5aded3fb7525",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/linguaboa/static/js/2.9445092d.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "668ab10885904f2dbc2f",
-    "url": "/linguaboa/static/js/main.d3e14ac9.chunk.js"
+    "revision": "4ffd9fedb6e209140075",
+    "url": "/linguaboa/static/js/main.07a97535.chunk.js"
   },
   {
     "revision": "5b6c2a6fb5d193b9a29d",
