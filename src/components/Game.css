@@ -2,10 +2,10 @@
   background-color: #585c64;
   width: 90vmin;
   height: 90vmin;
-  font-size: 2vmin;
+  font-size: 3vmin;
   display: grid;
-  grid-template-rows: repeat(21, 1fr);
-  grid-template-columns: repeat(21, 1fr);
+  grid-template-rows: repeat(18, 1fr);
+  grid-template-columns: repeat(18, 1fr);
 }
 
 .header {

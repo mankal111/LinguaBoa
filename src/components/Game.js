@@ -7,7 +7,7 @@ import { words, symbols } from "../words";
 export default class Board extends React.Component {
     constructor(props) {
         super(props);
-        const [x, y] = [10, 10];
+        const [x, y] = [9, 9];
         this.state = {
             foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
@@ -55,8 +55,8 @@ export default class Board extends React.Component {
         for(let i = 0; i < 3; i++) {
             do {
                 newFood = {
-                    x: Math.floor(Math.random() * 20 + 1),
-                    y: Math.floor(Math.random() * 20 + 1),
+                    x: Math.floor(Math.random() * 18 + 1),
+                    y: Math.floor(Math.random() * 18 + 1),
                 }
                 positionIsOccupied = occupiedPositions.some(
                     part => part.x === newFood.x && part.y === newFood.y
@@ -129,8 +129,8 @@ export default class Board extends React.Component {
                     foodList={foodList}
                     eat={this.eatFood}
                     die={exit}
-                    boardWidth={21}
-                    boardHeight={21}
+                    boardWidth={18}
+                    boardHeight={18}
                     directionVector={directionVector}
                 />
                 {foodList.map(
