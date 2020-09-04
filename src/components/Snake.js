@@ -13,7 +13,6 @@ export default class Snake extends React.Component {
                 {x: x+2, y}
             ],
             length: 3,
-            directionVector: { x: 0, y: 0 }, 
         }
         this.state = this.initialState;
         this.update = this.update.bind(this);
@@ -24,7 +23,6 @@ export default class Snake extends React.Component {
 
     update(now) {
         if (now - this.before > 1000 / this.state.length + 100) {
-            this.setState({directionVector: this.props.directionVector})
             this.move();
             this.before = now;
         }
@@ -72,9 +70,9 @@ export default class Snake extends React.Component {
     }
 
     move() {
-        const { partsList, length, directionVector } = this.state;
+        const { partsList, length } = this.state;
+        const { foodList, newSnakePartPositions, boardWidth, boardHeight, directionVector } = this.props;
         if (directionVector.x === 0 && directionVector.y === 0) return;
-        const { foodList, newSnakePartPositions, boardWidth, boardHeight } = this.props;
 
         const oldHeadPos = partsList[0];
         const newHeadPos = {
