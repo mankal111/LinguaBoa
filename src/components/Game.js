@@ -7,7 +7,7 @@ import { words, symbols } from "../words";
 export default class Board extends React.Component {
     constructor(props) {
         super(props);
-        const [x, y] = [9, 9];
+        const [x, y] = [4, 4];
         this.state = {
             foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
@@ -68,6 +68,7 @@ export default class Board extends React.Component {
                 wordAlreadyChosen = newFoodList.some(word => word.wordIndex === newFood.wordIndex);
             } while(wordAlreadyChosen);
             newFoodList.push(newFood);
+            occupiedPositions.push(newFood);
         }
         this.setState({ foodList: newFoodList });
         var msg = new SpeechSynthesisUtterance();
