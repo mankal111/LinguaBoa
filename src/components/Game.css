@@ -1,8 +1,15 @@
 .board {
-    background-color: #585c64;
-    width: 100vmin;
-    height: 100vmin;
-    display: grid;
-    grid-template-rows: repeat(21, 1fr);
-    grid-template-columns: repeat(21, 1fr);
-  }
+  background-color: #585c64;
+  width: 90vmin;
+  height: 90vmin;
+  font-size: 2vmin;
+  display: grid;
+  grid-template-rows: repeat(21, 1fr);
+  grid-template-columns: repeat(21, 1fr);
+}
+
+.header {
+  display: flex;
+  height: 5vmin;
+  justify-content: space-between;
+}

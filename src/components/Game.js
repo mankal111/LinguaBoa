@@ -12,6 +12,7 @@ export default class Board extends React.Component {
             foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
             directionVector: {x: 0, y: 0},
+            score: 0,
         }
         this.eatFood = this.eatFood.bind(this);
         this.generateFood = this.generateFood.bind(this);
@@ -76,7 +77,8 @@ export default class Board extends React.Component {
     }
 
     eatFood() {
-        this.setState({ foodList: [] });
+        const { score } = this.state;
+        this.setState({ foodList: [], score: score + 10 });
         this.generateFood();
     }
 
@@ -110,33 +112,39 @@ export default class Board extends React.Component {
     }
 
     render() {
-        const { foodList, directionVector } = this.state;
+        const { foodList, directionVector, score} = this.state;
         const { language, subject, exit } = this.props;
         const practiceWord = foodList[0] && words[language][subject][foodList[0].wordIndex];
         
-        return <div className="board" onClick={this.clickControl}>
-            <Snake
-                x={10} y={10}
-                newSnakePartPositions={this.newSnakePartPositions}
-                foodList={foodList}
-                eat={this.eatFood}
-                die={exit}
-                boardWidth={21}
-                boardHeight={21}
-                directionVector={directionVector}
-            />
-            {foodList.map(
-                food => (
-                    <Food
-                        x={food.x} y={food.y}
-                        key={`${food.x}-${food.y}`}
-                        language={language}
-                        subject={subject}
-                        wordIndex={food.wordIndex}
-                    />
-                )
-            )}
-            <div>{practiceWord}</div>
+        return <div className="game-container">
+            <div className="header">
+                <div className="title">Linguaboa</div>
+                <div className="practice-word">{practiceWord}</div>
+                <div className="score">{`Score: ${score}`}</div>
+            </div>
+            <div className="board" onClick={this.clickControl}>
+                <Snake
+                    x={10} y={10}
+                    newSnakePartPositions={this.newSnakePartPositions}
+                    foodList={foodList}
+                    eat={this.eatFood}
+                    die={exit}
+                    boardWidth={21}
+                    boardHeight={21}
+                    directionVector={directionVector}
+                />
+                {foodList.map(
+                    food => (
+                        <Food
+                            x={food.x} y={food.y}
+                            key={`${food.x}-${food.y}`}
+                            language={language}
+                            subject={subject}
+                            wordIndex={food.wordIndex}
+                        />
+                    )
+                )}
+            </div>
         </div>;
     }
 }
