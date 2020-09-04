@@ -93,8 +93,8 @@ export default class Snake extends React.Component {
 
         const shouldGrow = length > partsList.length;
         const newSnakeBody = shouldGrow ? partsList : partsList.slice(0, -1);
-        this.setState({partsList: [newHeadPos, ...newSnakeBody]});
-        newSnakePartPositions( partsList );
+        this.setState({ partsList: [newHeadPos, ...newSnakeBody] });
+        newSnakePartPositions(partsList);
 
         const foodIndex = foodList
             .findIndex(food => (food.x === newHeadPos.x) && (food.y === newHeadPos.y));
