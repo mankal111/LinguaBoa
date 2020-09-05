@@ -13,14 +13,13 @@ function Menu(props) {
                 <label>
                     Language:
                     <select value={language} onChange={event => setLanguage(event.target.value)}>
-                        <option hidden disabled selected value> -- select a language -- </option>
-                        {languages.map(language => <option value={language}>{language}</option>)}
+                        {languages.map(language => <option value={language} key={language}>{language}</option>)}
                     </select>
                 </label>
                 <label>
                     Subject:
                     <select value={subject} onChange={event => setSubject(event.target.value)}>
-                        {subjects.map(subject => <option value={subject}>{subject}</option>)}
+                        {subjects.map(subject => <option value={subject} key={subject}>{subject}</option>)}
                     </select>
                 </label>
                 <input type="submit" value="Play" />
