@@ -3,11 +3,14 @@ import "./Game.css";
 import Snake from "./Snake.js"
 import Food from "./Food";
 import { words, symbols } from "../words";
+import { boardSize, scorePerFood } from "../gameSettings";
 
 export default class Game extends React.Component {
     constructor(props) {
         super(props);
-        const [x, y] = [4, 4];
+        // TODO remove x y, position should be defined in one place
+        let x, y;
+        x = y = Math.floor(boardSize/2);
         this.state = {
             foodList: [],
             snakePositions: [{x, y}, {x: x+1, y}, {x: x+2, y}],
@@ -62,8 +65,8 @@ export default class Game extends React.Component {
         for(let i = 0; i < 3; i++) {
             do {
                 newFood = {
-                    x: Math.floor(Math.random() * 18 + 1),
-                    y: Math.floor(Math.random() * 18 + 1),
+                    x: Math.floor(Math.random() * boardSize + 1),
+                    y: Math.floor(Math.random() * boardSize + 1),
                 }
                 positionIsOccupied = occupiedPositions.some(
                     part => part.x === newFood.x && part.y === newFood.y
@@ -86,7 +89,7 @@ export default class Game extends React.Component {
 
     eatFood() {
         const { score } = this.state;
-        this.setState({ foodList: [], score: score + 10 });
+        this.setState({ foodList: [], score: score + scorePerFood });
         this.generateFood();
     }
 
@@ -130,15 +133,23 @@ export default class Game extends React.Component {
                 <div className="practice-word">{practiceWord}</div>
                 <div className="score">{`Score: ${score}`}</div>
             </div>
-            <div className="board" onClick={this.clickControl}>
+            <div
+                className="board"
+                onClick={this.clickControl}
+                style={{
+                    gridTemplateRows: `repeat(${boardSize}, 1fr)`,
+                    gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
+                    fontSize: `${55 / boardSize}vmin`
+                }}
+            >
                 <Snake
-                    x={10} y={10}
+                    x={Math.floor(boardSize/2)} y={Math.floor(boardSize/2)}
                     newSnakePartPositions={this.newSnakePartPositions}
                     foodList={foodList}
                     eat={this.eatFood}
                     die={exit}
-                    boardWidth={18}
-                    boardHeight={18}
+                    boardWidth={boardSize}
+                    boardHeight={boardSize}
                     directionVector={directionVector}
                 />
                 {foodList.map(

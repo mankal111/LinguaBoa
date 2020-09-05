@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SnakePart from "./SnakePart.js";
+import { snakeInitialSize, snakeLengthIncrease } from "../gameSettings";
 
 export default class Snake extends React.Component {
     constructor(props) {
@@ -12,7 +13,7 @@ export default class Snake extends React.Component {
                 {x: x+1, y},
                 {x: x+2, y}
             ],
-            length: 3,
+            length: snakeInitialSize,
             exit: false,
         }
         this.update = this.update.bind(this);
@@ -102,7 +103,7 @@ export default class Snake extends React.Component {
     eat(foodIndex) {
         // To avoid extra variables we define the first element as the correct element
         if (foodIndex !== 0) this.die();
-        this.setState({length: this.state.length + 2});
+        this.setState({length: this.state.length + snakeLengthIncrease});
         this.props.eat(foodIndex);
     }
 
