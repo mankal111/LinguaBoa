@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/linguaboa/static/css/main.ca04ec17.chunk.css",
-    "main.js": "/linguaboa/static/js/main.b6d4bc73.chunk.js",
-    "main.js.map": "/linguaboa/static/js/main.b6d4bc73.chunk.js.map",
+    "main.css": "/linguaboa/static/css/main.3b683b3f.chunk.css",
+    "main.js": "/linguaboa/static/js/main.5c458a85.chunk.js",
+    "main.js.map": "/linguaboa/static/js/main.5c458a85.chunk.js.map",
     "runtime-main.js": "/linguaboa/static/js/runtime-main.cfe35ea1.js",
     "runtime-main.js.map": "/linguaboa/static/js/runtime-main.cfe35ea1.js.map",
     "static/js/2.9445092d.chunk.js": "/linguaboa/static/js/2.9445092d.chunk.js",
     "static/js/2.9445092d.chunk.js.map": "/linguaboa/static/js/2.9445092d.chunk.js.map",
     "index.html": "/linguaboa/index.html",
-    "precache-manifest.659d02b6133a1b6aea6a413672f45584.js": "/linguaboa/precache-manifest.659d02b6133a1b6aea6a413672f45584.js",
+    "precache-manifest.9cf493e87797c9a1d18f1caa85fe9395.js": "/linguaboa/precache-manifest.9cf493e87797c9a1d18f1caa85fe9395.js",
     "service-worker.js": "/linguaboa/service-worker.js",
-    "static/css/main.ca04ec17.chunk.css.map": "/linguaboa/static/css/main.ca04ec17.chunk.css.map",
+    "static/css/main.3b683b3f.chunk.css.map": "/linguaboa/static/css/main.3b683b3f.chunk.css.map",
     "static/js/2.9445092d.chunk.js.LICENSE.txt": "/linguaboa/static/js/2.9445092d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.cfe35ea1.js",
     "static/js/2.9445092d.chunk.js",
-    "static/css/main.ca04ec17.chunk.css",
-    "static/js/main.b6d4bc73.chunk.js"
+    "static/css/main.3b683b3f.chunk.css",
+    "static/js/main.5c458a85.chunk.js"
   ]
 }
