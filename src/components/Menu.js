@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { words, symbols } from '../words';
 
 function Menu(props) {
@@ -9,7 +9,7 @@ function Menu(props) {
 
     return (
         <div className="Menu">
-            <form onSubmit={play}>
+            <form>
                 <label>
                     Language:
                     <select value={language} onChange={event => setLanguage(event.target.value)}>
@@ -22,7 +22,7 @@ function Menu(props) {
                         {subjects.map(subject => <option value={subject} key={subject}>{subject}</option>)}
                     </select>
                 </label>
-                <input type="submit" value="Play" />
+                <input type="button" value="Play"  onClick={play} />
             </form>
         </div>
     );
