@@ -6,15 +6,15 @@ export default class Snake extends React.Component {
     constructor(props) {
         super(props);
         const {x, y} = this.props;
-        this.initialState = {
+        this.state = {
             partsList: [
                 {x, y},
                 {x: x+1, y},
                 {x: x+2, y}
             ],
             length: 3,
+            exit: false,
         }
-        this.state = this.initialState;
         this.update = this.update.bind(this);
         this.move = this.move.bind(this);
         this.die = this.die.bind(this);
@@ -26,16 +26,14 @@ export default class Snake extends React.Component {
             this.move();
             this.before = now;
         }
-        this.animationID = window.requestAnimationFrame(this.update);  
+
+        const animationID = window.requestAnimationFrame(this.update); 
+        if (this.state.exit) window.cancelAnimationFrame(animationID);
     }
 
     componentDidMount() { 
         this.before = 0;
-        this.animationID = window.requestAnimationFrame(this.update);
-    }
-    
-    componentWillUnmount() {
-        window.cancelAnimationFrame(this.animationID);
+        window.requestAnimationFrame(this.update);
     }
 
     getDirectionFromCoordinates(fromCoordinates, toCoordinates) {
@@ -109,7 +107,7 @@ export default class Snake extends React.Component {
     }
 
     die() {
-        this.setState(this.initialState);
+        this.setState({exit: true});
         this.props.die();
     }
 
