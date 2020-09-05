@@ -4,7 +4,7 @@ import Snake from "./Snake.js"
 import Food from "./Food";
 import { words, symbols } from "../words";
 
-export default class Board extends React.Component {
+export default class Game extends React.Component {
     constructor(props) {
         super(props);
         const [x, y] = [4, 4];
@@ -17,16 +17,14 @@ export default class Board extends React.Component {
         this.eatFood = this.eatFood.bind(this);
         this.generateFood = this.generateFood.bind(this);
         this.clickControl = this.clickControl.bind(this);
+        this.setDirectionVectorFromKeyEvent = this.setDirectionVectorFromKeyEvent.bind(this);
         this.newSnakePartPositions =
             snakePositions => this.setState({ snakePositions });
     }
 
-    componentDidMount() {
-        this.generateFood();
-
-        window.addEventListener('keydown', e => {
-            const { snakePositions } = this.state;
-            switch (e.key) {
+    setDirectionVectorFromKeyEvent(event) {
+        const { snakePositions } = this.state;
+            switch (event.key) {
                 case 'ArrowUp':
                     if (snakePositions[0].y - snakePositions[1].y === 1) break;
                     this.setState({directionVector: { x: 0, y: -1}});
@@ -44,7 +42,16 @@ export default class Board extends React.Component {
                     this.setState({directionVector: { x: 1, y: 0}});
                     break;
             }
-        });
+    }
+    
+    componentDidMount() {
+        this.generateFood();
+
+        window.addEventListener('keydown', this.setDirectionVectorFromKeyEvent);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.setDirectionVectorFromKeyEvent);
     }
 
     generateFood() {
