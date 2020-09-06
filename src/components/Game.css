@@ -1,3 +1,12 @@
+.game-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-direction: row;
+  align-items: center;
+}
+
 .board {
   background-color: #585c64;
   width: 90vmin;
@@ -9,4 +18,20 @@
   display: flex;
   height: 5vmin;
   justify-content: space-between;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: row;
+}
+
+.up-button, .down-button, .left-button, .right-button {
+  border: solid 10px black;
+  height: 10vmin;
+  width: 10vmin;
+  margin: 10px;
+  background-color: #fff;
+  color: black;
+  text-align: center;
+  border-radius: 20px;
 }

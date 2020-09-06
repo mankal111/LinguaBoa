@@ -128,41 +128,51 @@ export default class Game extends React.Component {
         const practiceWord = foodList[0] && words[language][subject][foodList[0].wordIndex];
         
         return <div className="game-container">
-            <div className="header">
-                <div className="title">Linguaboa</div>
-                <div className="practice-word">{practiceWord}</div>
-                <div className="score">{`Score: ${score}`}</div>
+            <div className="left-side">
+                <div className="up-button" onClick={() => this.setDirectionVectorFromKeyEvent({key: 'ArrowUp'})}>up</div>
+                <div className="down-button" onClick={() => this.setDirectionVectorFromKeyEvent({key: 'ArrowDown'})}>down</div>
             </div>
-            <div
-                className="board"
-                onClick={this.clickControl}
-                style={{
-                    gridTemplateRows: `repeat(${boardSize}, 1fr)`,
-                    gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
-                    fontSize: `${55 / boardSize}vmin`
-                }}
-            >
-                <Snake
-                    x={Math.floor(boardSize/2)} y={Math.floor(boardSize/2)}
-                    newSnakePartPositions={this.newSnakePartPositions}
-                    foodList={foodList}
-                    eat={this.eatFood}
-                    die={exit}
-                    boardWidth={boardSize}
-                    boardHeight={boardSize}
-                    directionVector={directionVector}
-                />
-                {foodList.map(
-                    food => (
-                        <Food
-                            x={food.x} y={food.y}
-                            key={`${food.x}-${food.y}`}
-                            language={language}
-                            subject={subject}
-                            wordIndex={food.wordIndex}
-                        />
-                    )
-                )}
+            <div className="middle">
+                <div className="header">
+                    <div className="title">Linguaboa</div>
+                    <div className="practice-word">{practiceWord}</div>
+                    <div className="score">{`Score: ${score}`}</div>
+                </div>
+                <div
+                    className="board"
+                    onClick={this.clickControl}
+                    style={{
+                        gridTemplateRows: `repeat(${boardSize}, 1fr)`,
+                        gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
+                        fontSize: `${55 / boardSize}vmin`
+                    }}
+                >
+                    <Snake
+                        x={Math.floor(boardSize/2)} y={Math.floor(boardSize/2)}
+                        newSnakePartPositions={this.newSnakePartPositions}
+                        foodList={foodList}
+                        eat={this.eatFood}
+                        die={exit}
+                        boardWidth={boardSize}
+                        boardHeight={boardSize}
+                        directionVector={directionVector}
+                    />
+                    {foodList.map(
+                        food => (
+                            <Food
+                                x={food.x} y={food.y}
+                                key={`${food.x}-${food.y}`}
+                                language={language}
+                                subject={subject}
+                                wordIndex={food.wordIndex}
+                            />
+                        )
+                    )}
+                </div>
+            </div>
+            <div className="right-side">
+                <div className="left-button" onClick={() => this.setDirectionVectorFromKeyEvent({key: 'ArrowLeft'})}>left</div>
+                <div className="right-button" onClick={() => this.setDirectionVectorFromKeyEvent({key: 'ArrowRight'})}>right</div>
             </div>
         </div>;
     }
