@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SnakePart from "./SnakePart.js";
-import { snakeInitialSize, snakeLengthIncrease } from "../gameSettings";
+import { snakeInitialSize, snakeLengthIncrease, initialSpeed, speedIncrement } from "../gameSettings";
 
 export default class Snake extends React.Component {
     constructor(props) {
@@ -15,6 +15,7 @@ export default class Snake extends React.Component {
             ],
             length: snakeInitialSize,
             exit: false,
+            speed: initialSpeed,
         }
         this.update = this.update.bind(this);
         this.move = this.move.bind(this);
@@ -23,7 +24,8 @@ export default class Snake extends React.Component {
     }
 
     update(now) {
-        if (now - this.before > 1000 / this.state.length + 100) {
+        const { speed } = this.state;
+        if (now - this.before > 1000 / speed) {
             this.move();
             this.before = now;
         }
@@ -101,9 +103,10 @@ export default class Snake extends React.Component {
     }
 
     eat(foodIndex) {
+        const { length: previousLength, speed: previousSpeed } = this.state;
         // To avoid extra variables we define the first element as the correct element
         if (foodIndex !== 0) this.die();
-        this.setState({length: this.state.length + snakeLengthIncrease});
+        this.setState({length: previousLength + snakeLengthIncrease, speed: previousSpeed + speedIncrement});
         this.props.eat(foodIndex);
     }
 
