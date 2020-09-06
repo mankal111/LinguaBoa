@@ -35,3 +35,21 @@
   text-align: center;
   border-radius: 20px;
 }
+
+@media (orientation: portrait) {
+  .game-container {
+    flex-wrap: wrap;
+  }
+
+  .middle {
+    order: 1;
+  }
+
+  .left-side {
+    order: 2;
+  }
+
+  .right-side {
+    order: 3;
+  }
+}
