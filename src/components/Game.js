@@ -19,7 +19,6 @@ export default class Game extends React.Component {
         }
         this.eatFood = this.eatFood.bind(this);
         this.generateFood = this.generateFood.bind(this);
-        this.clickControl = this.clickControl.bind(this);
         this.setDirectionVectorFromKeyEvent = this.setDirectionVectorFromKeyEvent.bind(this);
         this.newSnakePartPositions =
             snakePositions => this.setState({ snakePositions });
@@ -91,35 +90,6 @@ export default class Game extends React.Component {
         const { score } = this.state;
         this.setState({ foodList: [], score: score + scorePerFood });
         this.generateFood();
-    }
-
-    clickControl(event) {
-        const { snakePositions, directionVector } = this.state;
-        const rect = event.target.children[0].getBoundingClientRect();
-        const headDirection = {
-            horizontal: snakePositions[0].y - snakePositions[1].y === 0,
-            vertical: snakePositions[0].x - snakePositions[1].x === 0,
-        }
-        const clickDirection = {
-            up: rect.top > event.clientY,
-            down: rect.bottom < event.clientY,
-            left: rect.left > event.clientX,
-            right: rect.right < event.clientX,
-        }
-        let newDirectionVector = {x: 0, y: 0};
-        if (headDirection.horizontal)
-            if (directionVector.x === 0 && directionVector.y === 0) 
-                newDirectionVector.x = -1;
-            else if (clickDirection.up)
-                newDirectionVector.y = -1;
-            else newDirectionVector.y = 1;
-        else if (headDirection.vertical)
-            if (clickDirection.left)
-                newDirectionVector.x = -1;
-            else newDirectionVector.x = 1;
-        //TODO: triple click bug. triple click kills snake
-        //console.log(snakePositions, headDirection, clickDirection, directionVector, newDirectionVector);
-        this.setState({directionVector: newDirectionVector});
     }
 
     render() {
