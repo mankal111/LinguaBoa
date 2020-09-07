@@ -26,24 +26,24 @@ export default class Game extends React.Component {
 
     setDirectionVectorFromKeyEvent(event) {
         const { snakePositions } = this.state;
-            switch (event.key) {
-                case 'ArrowUp':
-                    if (snakePositions[0].y - snakePositions[1].y === 1) break;
-                    this.setState({directionVector: { x: 0, y: -1}});
-                    break;
-                case 'ArrowDown':
-                    if (snakePositions[0].y - snakePositions[1].y === -1) break;
-                    this.setState({directionVector: { x: 0, y: 1}});
-                    break;
-                case 'ArrowLeft':
-                    if (snakePositions[0].x - snakePositions[1].x === 1) break;
-                    this.setState({directionVector: { x: -1, y: 0}});
-                    break;
-                case 'ArrowRight':
-                    if (snakePositions[0].x - snakePositions[1].x === -1) break;
-                    this.setState({directionVector: { x: 1, y: 0}});
-                    break;
-            }
+        switch (event.key) {
+            case 'ArrowUp':
+                if (snakePositions[0].y - snakePositions[1].y === 1) break;
+                this.setState({directionVector: { x: 0, y: -1}});
+                break;
+            case 'ArrowDown':
+                if (snakePositions[0].y - snakePositions[1].y === -1) break;
+                this.setState({directionVector: { x: 0, y: 1}});
+                break;
+            case 'ArrowLeft':
+                if (snakePositions[0].x - snakePositions[1].x === 1) break;
+                this.setState({directionVector: { x: -1, y: 0}});
+                break;
+            case 'ArrowRight':
+                if (snakePositions[0].x - snakePositions[1].x === -1) break;
+                this.setState({directionVector: { x: 1, y: 0}});
+                break;
+        }
     }
     
     componentDidMount() {

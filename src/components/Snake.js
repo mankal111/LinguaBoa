@@ -14,7 +14,7 @@ export default class Snake extends React.Component {
                 {x: x+2, y}
             ],
             length: snakeInitialSize,
-            exit: false,
+            dead: false,
             speed: initialSpeed,
         }
         this.update = this.update.bind(this);
@@ -24,14 +24,15 @@ export default class Snake extends React.Component {
     }
 
     update(now) {
-        const { speed } = this.state;
+        const { speed, dead } = this.state;
+
         if (now - this.before > 1000 / speed) {
             this.move();
             this.before = now;
         }
 
         const animationID = window.requestAnimationFrame(this.update); 
-        if (this.state.exit) window.cancelAnimationFrame(animationID);
+        if (dead) window.cancelAnimationFrame(animationID);
     }
 
     componentDidMount() { 
@@ -40,17 +41,16 @@ export default class Snake extends React.Component {
     }
 
     getDirectionFromCoordinates(fromCoordinates, toCoordinates) {
-        if (!fromCoordinates || !toCoordinates) return
+        if (!fromCoordinates || !toCoordinates) return;
         const { x: fromX, y: fromY } = fromCoordinates;
         const { x: toX, y: toY } = toCoordinates;
         const [xDiff, yDiff] = [fromX-toX, fromY-toY];
         if (yDiff === 0) {
             if (xDiff === 1) return 'left';
-            if (xDiff === -1) return 'right';
-        }
-        if (xDiff === 0) {
+            else if (xDiff === -1) return 'right';
+        } else if (xDiff === 0) {
             if (yDiff === 1) return 'up';
-            if (yDiff === -1) return 'down';
+            else if (yDiff === -1) return 'down';
         }
     }
 
@@ -94,8 +94,9 @@ export default class Snake extends React.Component {
 
         const shouldGrow = length > partsList.length;
         const newSnakeBody = shouldGrow ? partsList : partsList.slice(0, -1);
-        this.setState({ partsList: [newHeadPos, ...newSnakeBody] });
-        newSnakePartPositions(partsList);
+        const newPartsList = [newHeadPos, ...newSnakeBody];
+        this.setState({ partsList: newPartsList });
+        newSnakePartPositions(newPartsList);
 
         const foodIndex = foodList
             .findIndex(food => (food.x === newHeadPos.x) && (food.y === newHeadPos.y));
@@ -104,15 +105,17 @@ export default class Snake extends React.Component {
 
     eat(foodIndex) {
         const { length: previousLength, speed: previousSpeed } = this.state;
+        const { eat } = this.props;
         // To avoid extra variables we define the first element as the correct element
         if (foodIndex !== 0) this.die();
         this.setState({length: previousLength + snakeLengthIncrease, speed: previousSpeed + speedIncrement});
-        this.props.eat(foodIndex);
+        eat(foodIndex);
     }
 
     die() {
-        this.setState({exit: true});
-        this.props.die();
+        const { die } = this.props;
+        this.setState({dead: true});
+        die();
     }
 
     render() {
