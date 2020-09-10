@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import SnakePart from "./SnakePart.js";
 import { snakeInitialSize, snakeLengthIncrease, initialSpeed, speedIncrement } from "../gameSettings";
 
-export default class Snake extends React.Component {
+class Snake extends React.Component {
     constructor(props) {
         super(props);
         const {x, y} = this.props;
@@ -119,8 +119,27 @@ export default class Snake extends React.Component {
     }
 
     render() {
-        const {x, y} = this.props;
         const {partsList} = this.state;
         return partsList.map((part, index) => this.getPartElementByIndex(index));
     }
 }
+
+Snake.propTypes = {
+    x: PropTypes.number,
+    y: PropTypes.number,
+    boardWidth: PropTypes.number,
+    boardHeight: PropTypes.number,
+    directionVector: PropTypes.shape({
+        x: PropTypes.number,
+        y: PropTypes.number,
+    }),
+    die: PropTypes.func,
+    eat: PropTypes.func,
+    newSnakePartPositions: PropTypes.func,
+    foodList: PropTypes.arrayOf(PropTypes.shape({
+        x: PropTypes.number,
+        y: PropTypes.number,
+    })),
+}
+
+export default Snake;
