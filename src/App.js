@@ -11,7 +11,14 @@ function App() {
 
   const getScreen = () => {
     switch(screen) {
+      case 'game':
+        return <Game
+        language={language}
+        subject={subject}
+        exit={() => setScreen('menu')}
+        />;
       case 'menu':
+      default:
         return <Menu
           language={language}
           setLanguage={setLanguage}
@@ -19,13 +26,7 @@ function App() {
           setSubject={setSubject}
           play={() => setScreen('game')}
         />;
-      case 'game':
-        return <Game
-          language={language}
-          subject={subject}
-          exit={() => setScreen('menu')}
-        />;
-    };
+      };
   }
   
   return (
