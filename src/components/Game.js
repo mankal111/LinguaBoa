@@ -1,7 +1,7 @@
 import React from "react";
 import "./Game.css";
 import Snake from "./Snake.js"
-import Food from "./Food";
+import Food from "./Food.jsx";
 import Dialog from "./Dialog";
 import { words, symbols } from "../words";
 import { boardSize, scorePerFood } from "../gameSettings";
@@ -146,7 +146,6 @@ export default class Game extends React.Component {
                             <Food
                                 x={food.x} y={food.y}
                                 key={`${food.x}-${food.y}`}
-                                language={language}
                                 subject={subject}
                                 wordIndex={food.wordIndex}
                             />
