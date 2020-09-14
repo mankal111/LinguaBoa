@@ -10,25 +10,29 @@ function App() {
   const [screen, setScreen] = useState('menu');
 
   const getScreen = () => {
-    switch(screen) {
+    switch (screen) {
       case 'game':
-        return <Game
-        language={language}
-        subject={subject}
-        exit={() => setScreen('menu')}
-        />;
+        return (
+          <Game
+            language={language}
+            subject={subject}
+            exit={() => setScreen('menu')}
+          />
+        );
       case 'menu':
       default:
-        return <Menu
-          language={language}
-          setLanguage={setLanguage}
-          subject={subject}
-          setSubject={setSubject}
-          play={() => setScreen('game')}
-        />;
-      };
+        return (
+          <Menu
+            language={language}
+            setLanguage={setLanguage}
+            subject={subject}
+            setSubject={setSubject}
+            play={() => setScreen('game')}
+          />
+        );
+    };
   }
-  
+
   return (
     <div className="App">
       {getScreen()}
