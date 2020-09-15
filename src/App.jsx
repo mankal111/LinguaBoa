@@ -30,8 +30,8 @@ function App() {
             play={() => setScreen('game')}
           />
         );
-    };
-  }
+    }
+  };
 
   return (
     <div className="App">
