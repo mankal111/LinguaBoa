@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import SnakePart from "./SnakePart.js";
-import { snakeInitialSize, snakeLengthIncrease, initialSpeed, speedIncrement } from "../gameSettings";
+import React from 'react';
+import PropTypes from 'prop-types';
+import SnakePart from './SnakePart';
+import { snakeInitialSize, snakeLengthIncrease, initialSpeed, speedIncrement } from '../gameSettings';
 
 class Snake extends React.Component {
     constructor(props) {
