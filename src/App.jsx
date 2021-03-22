@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import Game from './components/Game';
 import Menu from './components/Menu';
 import { words, symbols } from './words';
-import './App.css';
+import '@fontsource/reggae-one';
+
+const Application = styled.div`
+  background-color: #161E11;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #63EC2E;
+  font-family: "Reggae One";
+`
 
 function App() {
   const [language, setLanguage] = useState(Object.keys(words)[0]);
@@ -34,9 +47,9 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <Application>
       {getScreen()}
-    </div>
+    </Application>
   );
 }
 
