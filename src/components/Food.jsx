@@ -1,22 +1,31 @@
 import React from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import './Food.css';
 import { symbols } from '../words';
+
+const FoodTile = styled.div`
+  color: #A46A23;
+  text-shadow: 1px 1px 2px #004200;
+  text-align: center;
+  grid-row-start: ${props => props.x};
+  grid-column-start: ${props => props.y};
+`
 
 function Food(props) {
   const {
     x, y, subject, wordIndex,
   } = props;
+  const symbol = symbols[subject][wordIndex];
+
   return (
-    <div
+    <FoodTile
       style={{
         gridRowStart: y,
         gridColumnStart: x,
       }}
-      className="food"
     >
-      {symbols[subject][wordIndex]}
-    </div>
+      {symbol}
+    </FoodTile>
   );
 }
 
