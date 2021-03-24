@@ -1,6 +1,6 @@
 .snake-part {
-  background-color: greenyellow;
-  border: .5vmin solid #003000;
+  background-color: #63EC2E;
+  border: .5vmin solid #004200;
   border-radius: 2vmin;
   pointer-events: none;
 }
