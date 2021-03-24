@@ -40,11 +40,9 @@ const PlayBtn = styled.input`
   border-radius: 10px;
 `
 
-const Menu = props => {
+const Menu = ({ setLanguage, setSubject, play, language, subject }) => {
   const languages = Object.keys(words);
   const subjects = Object.keys(symbols);
-
-  const { setLanguage, setSubject, play, language, subject } = props;
 
   return (
     <Container>
