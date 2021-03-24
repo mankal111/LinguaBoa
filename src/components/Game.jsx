@@ -1,11 +1,76 @@
 import React from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import './Game.css';
 import Snake from './Snake';
 import Food from './Food';
 import Dialog from './Dialog';
 import { words, symbols } from '../words';
 import { boardSize, scorePerFood } from '../gameSettings';
+
+const Container = styled.div`
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-direction: row;
+  align-items: center;
+  user-select: none;
+  @media (orientation: portrait) {
+    flex-wrap: wrap;
+  }
+`
+
+const Board = styled.div`
+  grid-template-rows: repeat(${props => props.size}, 1fr);
+  grid-template-columns: repeat(${props => props.size}, 1fr);
+  font-size: ${props => 55 / props.size}vmin;
+  background-color: #FFD489;
+  border: 20px solid #A46A23;
+  border-radius: 20px;
+  width:  calc(90vmin - 30px);
+  height: calc(90vmin - 30px);
+  display: grid;
+  box-shadow: 5px 5px 5px 1px black, inset 1px 1px 10px black;
+`
+
+const Header = styled.div`
+  display: flex;
+  height: 5vmin;
+  justify-content: space-between;
+`
+
+const Button = styled.button`
+  background-color: #63EC2E;
+  color: #004200;
+  font-family: "Reggae One";
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px 5px #004200, inset 1px 1px 3px white;
+  height: 10vmin;
+  width: 10vmin;
+  margin: 10px;
+  text-align: center;
+  border-radius: 20px;
+`
+
+const LeftControls = styled.div`
+  @media (orientation: portrait) {
+    order: 2;
+  }
+`
+
+const RightControls = styled.div`
+  @media (orientation: portrait) {
+    order: 3;
+  }
+`
+
+const GameContainer = styled.div`
+  @media (orientation: portrait) {
+    order: 1;
+  }
+`
 
 class Game extends React.Component {
   constructor(props) {
@@ -117,29 +182,24 @@ class Game extends React.Component {
     const practiceWord = foodList[0] && words[language][subject][foodList[0].wordIndex];
 
     return (
-      <div className="game-container">
+      <Container>
         {dialog && <Dialog exit={exit} restart={this.restart} />}
-        <div className="left-side">
-          <button type="button" className="up-button" onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowUp' })}>
+        <LeftControls>
+          <Button onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowUp' })}>
             up
-          </button>
-          <button type="button" className="down-button" onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowDown' })}>
+          </Button>
+          <Button onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowDown' })}>
             down
-          </button>
-        </div>
-        <div className="middle">
-          <div className="header">
-            <div className="title">Linguaboa</div>
-            <div className="practice-word">{practiceWord}</div>
-            <div className="score">{`Score: ${score}`}</div>
-          </div>
-          <div
-            className="board"
-            style={{
-              gridTemplateRows: `repeat(${boardSize}, 1fr)`,
-              gridTemplateColumns: `repeat(${boardSize}, 1fr)`,
-              fontSize: `${55 / boardSize}vmin`,
-            }}
+          </Button>
+        </LeftControls>
+        <GameContainer>
+          <Header>
+            <div>Linguaboa</div>
+            <div>{practiceWord}</div>
+            <div>{`Score: ${score}`}</div>
+          </Header>
+          <Board
+            size={boardSize}
           >
             <Snake
               x={Math.floor(boardSize / 2)}
@@ -164,17 +224,17 @@ class Game extends React.Component {
                 />
               ))
             }
-          </div>
-        </div>
-        <div className="right-side">
-          <button type="button" className="left-button" onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowLeft' })}>
+          </Board>
+        </GameContainer>
+        <RightControls>
+          <Button onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowLeft' })}>
             left
-          </button>
-          <button type="button" className="right-button" onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowRight' })}>
+          </Button>
+          <Button onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowRight' })}>
             right
-          </button>
-        </div>
-      </div>
+          </Button>
+        </RightControls>
+      </Container>
     );
   }
 }
