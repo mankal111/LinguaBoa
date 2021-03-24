@@ -5,7 +5,9 @@ import { words, symbols } from '../words';
 const Container = styled.div`
   background-color: #0082B4;
   border-radius: 5px;
-  box-shadow: 5px 5px 5px 1px black, inset 1px 1px 5px white;
+  box-shadow: 5px 5px 5px 1px black,
+    inset -1px -1px 5px black,
+    inset 1px 1px 5px white;
 `
 
 const Title = styled.h1`
