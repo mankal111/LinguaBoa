@@ -40,7 +40,7 @@ const PlayBtn = styled.input`
   border-radius: 10px;
 `
 
-function Menu(props) {
+const Menu = props => {
   const languages = Object.keys(words);
   const subjects = Object.keys(symbols);
 

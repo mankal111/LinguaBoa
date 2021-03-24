@@ -17,7 +17,7 @@ const Application = styled.div`
   font-family: "Reggae One";
 `
 
-function App() {
+const App = () => {
   const [language, setLanguage] = useState(Object.keys(words)[0]);
   const [subject, setSubject] = useState(Object.keys(symbols)[0]);
   const [screen, setScreen] = useState('menu');
