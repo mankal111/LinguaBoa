@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Snake from './Snake';
@@ -72,65 +72,60 @@ const GameContainer = styled.div`
   }
 `
 
-class Game extends React.Component {
-  constructor(props) {
-    super(props);
-    // TODO remove x y, position should be defined in one place
-    const x = Math.floor(boardSize / 2);
-    const y = Math.floor(boardSize / 2);
-    this.initialState = {
-      foodList: [],
-      snakePositions: [{ x, y }, { x: x + 1, y }, { x: x + 2, y }],
-      directionVector: { x: 0, y: 0 },
-      score: 0,
-      dialog: false,
-      snakeKey: 0,
-    };
-    this.state = this.initialState;
-    this.eatFood = this.eatFood.bind(this);
-    this.generateFood = this.generateFood.bind(this);
-    this.setDirectionVectorFromKeyEvent = this.setDirectionVectorFromKeyEvent.bind(this);
-    this.newSnakePartPositions = (snakePositions) => this.setState({ snakePositions });
-    this.lose = () => this.setState({ dialog: true });
-    this.restart = this.restart.bind(this);
+const Game = ({ subject, language, exit }) => {
+  // TODO remove x y, position should be defined in one place
+  const x = Math.floor(boardSize / 2);
+  const y = Math.floor(boardSize / 2);
+  const initialSnakePositions = [{ x, y }, { x: x + 1, y }, { x: x + 2, y }];
+  const [foodList, setFoodList] = useState([]);
+  const [snakePositions, _setSnakePositions] = useState(initialSnakePositions);
+  const snakePositionsRef = useRef(snakePositions);
+  const setSnakePositions = data => {
+    snakePositionsRef.current = data;
+    _setSnakePositions(data);
   }
 
-  componentDidMount() {
-    this.generateFood();
+  const [directionVector, setDirectionVector] = useState({x: 0, y: 0});
+  const [score, setScore] = useState(0);
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
+  const [snakeKey, setSnakeKey] = useState(0);
 
-    window.addEventListener('keydown', this.setDirectionVectorFromKeyEvent);
-  }
+  const lose = () => setDialogIsOpen(true);
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.setDirectionVectorFromKeyEvent);
-  }
+  useEffect(() => {
+    generateFood();
 
-  setDirectionVectorFromKeyEvent(event) {
-    const { snakePositions } = this.state;
+    window.addEventListener('keydown', setDirectionVectorFromKeyEvent);
+    
+    return () => {
+      window.removeEventListener('keydown', setDirectionVectorFromKeyEvent);
+    }
+  }, []);
+
+  const setDirectionVectorFromKeyEvent = event => {
+    const snakePositions = snakePositionsRef.current;
     switch (event.key) {
       case 'ArrowUp':
         if (snakePositions[0].y - snakePositions[1].y === 1) break;
-        this.setState({ directionVector: { x: 0, y: -1 } });
+        setDirectionVector({ x: 0, y: -1 });
         break;
       case 'ArrowDown':
         if (snakePositions[0].y - snakePositions[1].y === -1) break;
-        this.setState({ directionVector: { x: 0, y: 1 } });
+        setDirectionVector({ x: 0, y: 1 });
         break;
       case 'ArrowLeft':
         if (snakePositions[0].x - snakePositions[1].x === 1) break;
-        this.setState({ directionVector: { x: -1, y: 0 } });
+        setDirectionVector({ x: -1, y: 0 });
         break;
       case 'ArrowRight':
         if (snakePositions[0].x - snakePositions[1].x === -1) break;
-        this.setState({ directionVector: { x: 1, y: 0 } });
+        setDirectionVector({ x: 1, y: 0 });
         break;
       default:
     }
   }
 
-  generateFood() {
-    const { foodList, snakePositions } = this.state;
-    const { subject, language } = this.props;
+  const generateFood = () => {
     const occupiedPositions = [...foodList, ...snakePositions];
     let positionIsOccupied; let wordAlreadyChosen;
     const newFoodList = [];
@@ -153,7 +148,7 @@ class Game extends React.Component {
       occupiedPositions.push(newFood);
     }
 
-    this.setState({ foodList: newFoodList });
+    setFoodList(newFoodList);
 
     const msg = new SpeechSynthesisUtterance();
     msg.lang = words[language].code;
@@ -161,82 +156,79 @@ class Game extends React.Component {
     window.speechSynthesis.speak(msg);
   }
 
-  eatFood() {
-    const { score } = this.state;
-    this.setState({ foodList: [], score: score + scorePerFood });
-    this.generateFood();
+  const eatFood = () => {
+    setFoodList([]);
+    setScore(score + scorePerFood);
+    generateFood();
   }
 
-  restart() {
-    const { snakeKey } = this.state;
+  const restart = () => {
     // By changing the key the snakeKey, we force the snake to reset
-    this.setState({ ...this.initialState, snakeKey: snakeKey + 1 });
-    this.generateFood();
+    setSnakeKey(snakeKey + 1);
+    setFoodList([]);
+    setSnakePositions(initialSnakePositions);
+    setDirectionVector({x: 0, y: 0});
+    setScore(0);
+    setDialogIsOpen(false);
+    generateFood();
   }
+  const practiceWord = foodList[0] && words[language][subject][foodList[0].wordIndex];
 
-  render() {
-    const {
-      foodList, directionVector, score, dialog, snakeKey,
-    } = this.state;
-    const { language, subject, exit } = this.props;
-    const practiceWord = foodList[0] && words[language][subject][foodList[0].wordIndex];
-
-    return (
-      <Container>
-        {dialog && <Dialog exit={exit} restart={this.restart} />}
-        <LeftControls>
-          <Button onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowUp' })}>
-            up
-          </Button>
-          <Button onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowDown' })}>
-            down
-          </Button>
-        </LeftControls>
-        <GameContainer>
-          <Header>
-            <div>Linguaboa</div>
-            <div>{practiceWord}</div>
-            <div>{`Score: ${score}`}</div>
-          </Header>
-          <Board
-            size={boardSize}
-          >
-            <Snake
-              x={Math.floor(boardSize / 2)}
-              y={Math.floor(boardSize / 2)}
-              newSnakePartPositions={this.newSnakePartPositions}
-              foodList={foodList}
-              eat={this.eatFood}
-              die={this.lose}
-              boardWidth={boardSize}
-              boardHeight={boardSize}
-              directionVector={directionVector}
-              key={snakeKey}
-            />
-            {
-              foodList.map((food) => (
-                <Food
-                  x={food.x}
-                  y={food.y}
-                  key={`${food.x}-${food.y}`}
-                  subject={subject}
-                  wordIndex={food.wordIndex}
-                />
-              ))
-            }
-          </Board>
-        </GameContainer>
-        <RightControls>
-          <Button onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowLeft' })}>
-            left
-          </Button>
-          <Button onClick={() => this.setDirectionVectorFromKeyEvent({ key: 'ArrowRight' })}>
-            right
-          </Button>
-        </RightControls>
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      {dialogIsOpen && <Dialog exit={exit} restart={restart} />}
+      <LeftControls>
+        <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowUp' })}>
+          up
+        </Button>
+        <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowDown' })}>
+          down
+        </Button>
+      </LeftControls>
+      <GameContainer>
+        <Header>
+          <div>Linguaboa</div>
+          <div>{practiceWord}</div>
+          <div>{`Score: ${score}`}</div>
+        </Header>
+        <Board
+          size={boardSize}
+        >
+          <Snake
+            x={Math.floor(boardSize / 2)}
+            y={Math.floor(boardSize / 2)}
+            newSnakePartPositions={setSnakePositions}
+            foodList={foodList}
+            eat={eatFood}
+            die={lose}
+            boardWidth={boardSize}
+            boardHeight={boardSize}
+            directionVector={directionVector}
+            key={snakeKey}
+          />
+          {
+            foodList.map((food) => (
+              <Food
+                x={food.x}
+                y={food.y}
+                key={`${food.x}-${food.y}`}
+                subject={subject}
+                wordIndex={food.wordIndex}
+              />
+            ))
+          }
+        </Board>
+      </GameContainer>
+      <RightControls>
+        <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowLeft' })}>
+          left
+        </Button>
+        <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowRight' })}>
+          right
+        </Button>
+      </RightControls>
+    </Container>
+  );
 }
 
 Game.propTypes = {
