@@ -3,28 +3,62 @@ import styled from 'styled-components';
 import { words, symbols } from '../words';
 
 const Container = styled.div`
+  width: 500px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
   background-color: #0082B4;
   border-radius: 5px;
   box-shadow: 5px 5px 5px 1px black,
     inset -1px -1px 5px black,
     inset 1px 1px 5px white;
+
+  @media (max-width: 600px), (max-height: 600px) {
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    border-radius: 0;
+  }
 `
 
 const Title = styled.h1`
   text-shadow: 5px 5px #004200;
+  font-size: 70px;
   width: 100%;
   text-align: center;
+
+  @media (max-width: 600px) {
+    margin: 5vh 5vw 5vh 5vw;
+    width: 90vw;
+    font-size: 12vw;
+  }
+
+  @media (max-height: 330px) {
+    margin: 5vh 5vw 5vh 5vw;
+    width: 90vw;
+    font-size: 12vw;
+  }
 `
 
 const Options = styled.form`
+  height: 100%;
+  max-width: 100%;
+  margin: auto;
   display: flex;
+  align-items: center;
+  justify-content: space-evenly;
   flex-direction: column;
-  padding: 50px;
-  padding-top: 0;
+  @media screen and (max-height: 480px) {
+    flex-direction: row;
+  }
 `
 
-const Dropdown = styled.label`
-  padding: 20px;
+const Dropdowns = styled.div`
+  display: flex;
+  flex-direction: column;
+  label {
+    padding: 15px;
+  }
   select {
     background-color: #63EC2E;
     color: #004200;
@@ -45,6 +79,15 @@ const PlayBtn = styled.input`
   cursor: pointer;
   box-shadow: 2px 2px 2px 5px #004200, inset 1px 1px 3px white;
   border-radius: 10px;
+  @media (max-width: 500px) {
+    width: 50vw;
+    font-size: 12vw;
+  }
+
+  @media (max-height: 480px){
+    width: 20vw;
+    font-size: 5vw;
+  }
 `
 
 const Menu = ({ setLanguage, setSubject, play, language, subject }) => {
@@ -55,7 +98,8 @@ const Menu = ({ setLanguage, setSubject, play, language, subject }) => {
     <Container>
       <Title>LinguaBoa</Title>
       <Options>
-        <Dropdown htmlFor="language-select">
+        <Dropdowns>
+        <label htmlFor="language-select">
           Language:
           <select
             id="language-select"
@@ -73,8 +117,8 @@ const Menu = ({ setLanguage, setSubject, play, language, subject }) => {
               ))
             }
           </select>
-        </Dropdown>
-        <Dropdown htmlFor="subject-select">
+        </label>
+        <label htmlFor="subject-select">
           Subject:
           <select
             id="subject-select"
@@ -90,7 +134,8 @@ const Menu = ({ setLanguage, setSubject, play, language, subject }) => {
               </option>
             ))}
           </select>
-        </Dropdown>
+        </label>
+        </Dropdowns>
         <PlayBtn type="button" value="PLAY" onClick={play} />
       </Options>
     </Container>

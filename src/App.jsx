@@ -7,7 +7,8 @@ import '@fontsource/reggae-one';
 
 const Application = styled.div`
   background-color: #161E11;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
