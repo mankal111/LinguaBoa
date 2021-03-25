@@ -35,8 +35,7 @@ const Button = styled.button`
   border-radius: 10px;
 `
 
-function Dialog(props) {
-  const { exit, restart } = props;
+const Dialog = ({ exit, restart }) => {
   return (
     <Container>
       <Message>

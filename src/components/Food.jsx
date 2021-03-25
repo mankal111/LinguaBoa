@@ -11,10 +11,7 @@ const FoodTile = styled.div`
   grid-column-start: ${props => props.y};
 `
 
-function Food(props) {
-  const {
-    x, y, subject, wordIndex,
-  } = props;
+const Food = ({x, y, subject, wordIndex}) => {
   const symbol = symbols[subject][wordIndex];
 
   return (
