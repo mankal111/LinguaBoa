@@ -25,6 +25,13 @@ const Options = styled.form`
 
 const Dropdown = styled.label`
   padding: 20px;
+  select {
+    background-color: #63EC2E;
+    color: #004200;
+    margin-left: 10px;
+    font-size: 20px;
+    font-family: "Reggae One";
+  }
 `
 
 const PlayBtn = styled.input`
