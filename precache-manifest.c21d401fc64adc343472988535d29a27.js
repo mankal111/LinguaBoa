@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5832f6a5d0026b5be3bdd0d3c2301070",
+    "revision": "195e1531b3014f266a5bf5df47dcfd33",
     "url": "/linguaboa/index.html"
   },
   {
-    "revision": "ed740e35b50885f6a1d6",
+    "revision": "f059d57d304db41a686f",
     "url": "/linguaboa/static/css/2.ab4b7492.chunk.css"
   },
   {
-    "revision": "97916f68e879a48a4e98",
+    "revision": "c35356476ae94580dfd6",
     "url": "/linguaboa/static/css/main.908e8d68.chunk.css"
   },
   {
-    "revision": "ed740e35b50885f6a1d6",
-    "url": "/linguaboa/static/js/2.84489e1e.chunk.js"
+    "revision": "f059d57d304db41a686f",
+    "url": "/linguaboa/static/js/2.e5c298f9.chunk.js"
   },
   {
     "revision": "c64c486544348f10a6d6c716950bc223",
-    "url": "/linguaboa/static/js/2.84489e1e.chunk.js.LICENSE.txt"
+    "url": "/linguaboa/static/js/2.e5c298f9.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "97916f68e879a48a4e98",
-    "url": "/linguaboa/static/js/main.146aa24f.chunk.js"
+    "revision": "c35356476ae94580dfd6",
+    "url": "/linguaboa/static/js/main.8b095be0.chunk.js"
   },
   {
     "revision": "5b6c2a6fb5d193b9a29d",
