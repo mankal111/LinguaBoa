@@ -27,16 +27,18 @@ const Board = styled.div`
   background-color: #FFD489;
   border: 20px solid #A46A23;
   border-radius: 20px;
-  width:  calc(90vmin - 30px);
-  height: calc(90vmin - 30px);
+  width:  80vmin;
+  height: 80vmin;
   display: grid;
   box-shadow: 5px 5px 5px 1px black, inset 1px 1px 10px black;
 `
 
 const Header = styled.div`
+  top: 0;
   display: flex;
   height: 5vmin;
   justify-content: space-between;
+  margin: 1vw;
 `
 
 const Button = styled.button`

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 const Container = styled.div`
   position: absolute;
+  max-width: 500px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -17,14 +18,16 @@ const Message = styled.div``
 
 const ButtonsContainer = styled.div`
   width: 100%;
+  height: 200px;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
-  margin: 10px;
 `
 
 const Button = styled.button`
   height: 50px;
   width: 250px;
+  margin: auto;
   background-color: #63EC2E;
   color: #004200;
   font-family: "Reggae One";
