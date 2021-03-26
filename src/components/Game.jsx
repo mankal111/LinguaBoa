@@ -179,10 +179,10 @@ const Game = ({ subject, language, exit }) => {
       {dialogIsOpen && <Dialog exit={exit} restart={restart} />}
       <LeftControls>
         <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowUp' })}>
-          up
+          ↑
         </Button>
         <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowDown' })}>
-          down
+          ↓
         </Button>
       </LeftControls>
       <GameContainer>
@@ -221,10 +221,10 @@ const Game = ({ subject, language, exit }) => {
       </GameContainer>
       <RightControls>
         <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowLeft' })}>
-          left
+          ←
         </Button>
         <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowRight' })}>
-          right
+          →
         </Button>
       </RightControls>
     </Container>
