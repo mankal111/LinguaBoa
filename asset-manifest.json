@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/linguaboa/static/css/main.908e8d68.chunk.css",
-    "main.js": "/linguaboa/static/js/main.6f4cf08e.chunk.js",
-    "main.js.map": "/linguaboa/static/js/main.6f4cf08e.chunk.js.map",
+    "main.js": "/linguaboa/static/js/main.0c4ddb62.chunk.js",
+    "main.js.map": "/linguaboa/static/js/main.0c4ddb62.chunk.js.map",
     "runtime-main.js": "/linguaboa/static/js/runtime-main.cfe35ea1.js",
     "runtime-main.js.map": "/linguaboa/static/js/runtime-main.cfe35ea1.js.map",
     "static/css/2.ab4b7492.chunk.css": "/linguaboa/static/css/2.ab4b7492.chunk.css",
     "static/js/2.e5c298f9.chunk.js": "/linguaboa/static/js/2.e5c298f9.chunk.js",
     "static/js/2.e5c298f9.chunk.js.map": "/linguaboa/static/js/2.e5c298f9.chunk.js.map",
     "index.html": "/linguaboa/index.html",
-    "precache-manifest.53a128448b6bf8cc74ce4b441b522d37.js": "/linguaboa/precache-manifest.53a128448b6bf8cc74ce4b441b522d37.js",
+    "precache-manifest.1cc213e91728214fc26bb72a4c9fd8e5.js": "/linguaboa/precache-manifest.1cc213e91728214fc26bb72a4c9fd8e5.js",
     "service-worker.js": "/linguaboa/service-worker.js",
     "static/css/2.ab4b7492.chunk.css.map": "/linguaboa/static/css/2.ab4b7492.chunk.css.map",
     "static/css/main.908e8d68.chunk.css.map": "/linguaboa/static/css/main.908e8d68.chunk.css.map",
@@ -21,6 +21,6 @@
     "static/css/2.ab4b7492.chunk.css",
     "static/js/2.e5c298f9.chunk.js",
     "static/css/main.908e8d68.chunk.css",
-    "static/js/main.6f4cf08e.chunk.js"
+    "static/js/main.0c4ddb62.chunk.js"
   ]
 }
