@@ -38,11 +38,11 @@ const Button = styled.button`
   border-radius: 10px;
 `
 
-const Dialog = ({ exit, restart }) => {
+const Dialog = ({ exit, restart, practiceWord, symbol, language }) => {
   return (
     <Container>
       <Message>
-        Sometimes you win and sometimes you learn.
+        {`Wrong... "${practiceWord}" means ${symbol} in ${language}.`}
       </Message>
       <ButtonsContainer>
         <Button onClick={restart}>Play again</Button>

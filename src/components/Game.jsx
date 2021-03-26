@@ -175,10 +175,11 @@ const Game = ({ subject, language, exit }) => {
     generateFood();
   }
   const practiceWord = foodList[0] && words[language][subject][foodList[0].wordIndex];
+  const rightSymbol = foodList[0] && symbols[subject][foodList[0].wordIndex];
 
   return (
     <Container>
-      {dialogIsOpen && <Dialog exit={exit} restart={restart} />}
+      {dialogIsOpen && <Dialog exit={exit} restart={restart} practiceWord={practiceWord} symbol={rightSymbol} language={language}/>}
       <LeftControls>
         <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowUp' })}>
           ↑
