@@ -38,14 +38,14 @@ const Button = styled.button`
   border-radius: 10px;
 `
 
-const Dialog = ({ exit, restart, practiceWord, symbol, language }) => {
+const Dialog = ({ exit, playAgain, practiceWord, symbol, language }) => {
   return (
     <Container>
       <Message>
         {`Wrong... "${practiceWord}" means ${symbol} in ${language}.`}
       </Message>
       <ButtonsContainer>
-        <Button onClick={restart}>Play again</Button>
+        <Button onClick={playAgain}>Play again</Button>
         <Button onClick={exit}>Back to main Menu</Button>
       </ButtonsContainer>
     </Container>
@@ -54,7 +54,7 @@ const Dialog = ({ exit, restart, practiceWord, symbol, language }) => {
 
 Dialog.propTypes = {
   exit: PropTypes.func.isRequired,
-  restart: PropTypes.func.isRequired,
+  playAgain: PropTypes.func.isRequired,
 };
 
 export default Dialog;

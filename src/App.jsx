@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Store from './store';
 import styled from 'styled-components';
 import Game from './components/Game';
 import Menu from './components/Menu';
@@ -21,30 +22,40 @@ const Application = styled.div`
 const App = () => {
   const [language, setLanguage] = useState(Object.keys(words)[0]);
   const [subject, setSubject] = useState(Object.keys(symbols)[0]);
-  const [screen, setScreen] = useState('menu');
+  const [store, setStore] = useState();
+
+  const play = () => {
+    setStore(new Store({subject, language}));
+  }
+
+  const restart = () => {
+    setStore(new Store({subject, language}));
+  }
+
+  const exit = () => {
+    setStore(null);
+  }
+
 
   const getScreen = () => {
-    switch (screen) {
-      case 'game':
-        return (
-          <Game
-            language={language}
-            subject={subject}
-            exit={() => setScreen('menu')}
-          />
-        );
-      case 'menu':
-      default:
-        return (
-          <Menu
-            language={language}
-            setLanguage={setLanguage}
-            subject={subject}
-            setSubject={setSubject}
-            play={() => setScreen('game')}
-          />
-        );
+    if (store) {
+      return (
+        <Game
+          store={store}
+          restart={restart}
+          exit={exit}
+        />
+      );
     }
+    return (
+      <Menu
+        language={language}
+        setLanguage={setLanguage}
+        subject={subject}
+        setSubject={setSubject}
+        play={play}
+      />
+    );
   };
 
   return (

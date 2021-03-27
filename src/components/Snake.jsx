@@ -74,7 +74,8 @@ class Snake extends React.Component {
 
   move() {
     const { partsList, length } = this.state;
-    const { foodList, newSnakePartPositions, boardWidth, boardHeight, directionVector } = this.props;
+    const { foodList, newSnakePartPositions, boardWidth, boardHeight, store } = this.props;
+    const { directionVector } = store;
     if (directionVector.x === 0 && directionVector.y === 0) return;
 
     const oldHeadPos = partsList[0];
