@@ -5,6 +5,7 @@ import Snake from './Snake';
 import Food from './Food';
 import Dialog from './Dialog';
 import { words, symbols } from '../words';
+import Store from '../store';
 import { boardSize, scorePerFood } from '../gameSettings';
 
 const Container = styled.div`
@@ -75,6 +76,7 @@ const GameContainer = styled.div`
 `
 
 const Game = ({ subject, language, exit }) => {
+  const [store] = useState(new Store());
   // TODO remove x y, position should be defined in one place
   const x = Math.floor(boardSize / 2);
   const y = Math.floor(boardSize / 2);
@@ -88,7 +90,6 @@ const Game = ({ subject, language, exit }) => {
   }
 
   const [directionVector, setDirectionVector] = useState({x: 0, y: 0});
-  const [score, setScore] = useState(0);
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const [snakeKey, setSnakeKey] = useState(0);
 
@@ -160,7 +161,7 @@ const Game = ({ subject, language, exit }) => {
 
   const eatFood = () => {
     setFoodList([]);
-    setScore(score + scorePerFood);
+    store.score = store.score + scorePerFood;
     generateFood();
   }
 
@@ -170,7 +171,7 @@ const Game = ({ subject, language, exit }) => {
     setFoodList([]);
     setSnakePositions(initialSnakePositions);
     setDirectionVector({x: 0, y: 0});
-    setScore(0);
+    store.score = 0;
     setDialogIsOpen(false);
     generateFood();
   }
@@ -192,7 +193,7 @@ const Game = ({ subject, language, exit }) => {
         <Header>
           <div>Linguaboa</div>
           <div>{practiceWord}</div>
-          <div>{`Score: ${score}`}</div>
+          <div>{`Score: ${store.score}`}</div>
         </Header>
         <Board
           size={boardSize}
