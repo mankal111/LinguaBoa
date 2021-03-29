@@ -4,7 +4,7 @@ import { words, symbols } from './words';
 
 export default class Store {
   foodList = [];
-  score = 0;
+  foodEatenAmount = 0;
   subject = '';
   language = '';
   directionVector = { x: 0, y: 0 };
@@ -17,9 +17,9 @@ export default class Store {
   constructor({ subject, language }) {
     makeObservable(this, {
       foodList: observable,
+      foodEatenAmount: observable,
       snakePositions: observable,
       directionVector: observable,
-      score: observable,
       subject: observable,
       language: observable,
       snakeLength: observable,
@@ -28,6 +28,7 @@ export default class Store {
       lastUpdate: observable,
       practiceWord: computed,
       rightSymbol: computed,
+      score: computed,
       generateFood: action,
       turn: action,
       eat: action,
@@ -53,6 +54,10 @@ export default class Store {
 
   get rightSymbol() {
     return this.foodList[0] && symbols[this.subject][this.foodList[0].wordIndex];
+  }
+
+  get score() {
+    return this.foodEatenAmount * scorePerFood;
   }
 
   generateFood = () => {
@@ -111,7 +116,7 @@ export default class Store {
     if (foodIndex !== 0) this.alive = false;
     this.snakeLength += snakeLengthIncrease;
     this.speed += speedIncrement;
-    this.score += scorePerFood;
+    this.foodEatenAmount++;
     this.generateFood();
   }
 
