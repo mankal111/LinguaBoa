@@ -9,7 +9,7 @@ export const initialSnakePositions = (() => {
     const boardCenter = {x: Math.floor(boardSize / 2), y: Math.floor(boardSize / 2)};
     let positionList = [];
     for (let i = 0; i < snakeInitialSize; i++) {
-        positionList.push({x: boardCenter.x, y: boardCenter.x + i});
+        positionList.push({x: boardCenter.x + i, y: boardCenter.y});
     }
 
     return positionList;
