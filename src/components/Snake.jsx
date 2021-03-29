@@ -1,13 +1,11 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import SnakePart from './SnakePart';
 
-class Snake extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const Snake = observer(({ store }) => {
 
-  getDirectionFromCoordinates(fromCoordinates, toCoordinates) {
+  const getDirectionFromCoordinates = (fromCoordinates, toCoordinates) => {
     if (!fromCoordinates || !toCoordinates) return;
     const { x: fromX, y: fromY } = fromCoordinates;
     const { x: toX, y: toY } = toCoordinates;
@@ -21,8 +19,8 @@ class Snake extends React.Component {
     }
   }
 
-  getPartElementByIndex(index) {
-    const { snakePositions: partsList } = this.props.store;
+  const getPartElementByIndex = index => {
+    const { snakePositions: partsList } = store;
     const coordinates = partsList[index];
     const type = index === 0 ? 'head' : (index === partsList.length - 1 ? 'tail' : 'middle');
     const prevCoordinates = type === 'tail' ? undefined : partsList[index + 1];
@@ -32,18 +30,15 @@ class Snake extends React.Component {
         x={coordinates.x}
         y={coordinates.y}
         type={type}
-        from={this.getDirectionFromCoordinates(coordinates, prevCoordinates)}
-        to={this.getDirectionFromCoordinates(coordinates, nextCoordinates)}
+        from={getDirectionFromCoordinates(coordinates, prevCoordinates)}
+        to={getDirectionFromCoordinates(coordinates, nextCoordinates)}
         key={`${coordinates.x}-${coordinates.y}`}
       />
     );
   }
-
-  render() {
-    const { snakePositions } = this.props.store;
-    return snakePositions.map((part, index) => this.getPartElementByIndex(index));
-  }
-}
+  const { snakePositions } = store;
+  return snakePositions.map((part, index) => getPartElementByIndex(index));
+})
 
 Snake.propTypes = {
   store: PropTypes.object,
