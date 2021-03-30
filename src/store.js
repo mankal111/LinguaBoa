@@ -70,6 +70,13 @@ export default class Store {
     return this.foodEatenAmount * scorePerFood;
   }
 
+  getRandomBoardPosition() {
+    return [
+      Math.floor(Math.random() * boardSize + 1),
+      Math.floor(Math.random() * boardSize + 1)
+    ]
+  }
+
   generateFood = () => {
     const occupiedPositions = [...this.snakePositions];
     let positionIsOccupied; let wordAlreadyChosen;
@@ -77,8 +84,7 @@ export default class Store {
     for (let i = 0; i < 3; i += 1) {
       let newFood;
       do {
-        const x = Math.floor(Math.random() * boardSize + 1);
-        const y = Math.floor(Math.random() * boardSize + 1);
+        const [x, y] = this.getRandomBoardPosition();
         positionIsOccupied = occupiedPositions.some(
           (part) => part.x === x && part.y === y,
         );
