@@ -26,8 +26,6 @@ export default class Store {
       speed: observable,
       alive: observable,
       lastUpdate: observable,
-      currentPracticeWordList: computed,
-      currentPracticeSymbolList: computed,
       practiceWord: computed,
       rightSymbol: computed,
       score: computed,
@@ -46,20 +44,14 @@ export default class Store {
     window.requestAnimationFrame(this.update);
   }
 
-  get currentPracticeWordList() {
-    return words[this.language][this.subject];
-  }
-
-  get currentPracticeSymbolList() {
-    return symbols[this.subject];
-  }
-
   get practiceWord() {
-    return this.foodList[0] && this.currentPracticeWordList[this.foodList[0].wordIndex];
+    const currentPracticeWordList = words[this.language][this.subject];
+    return this.foodList[0] && currentPracticeWordList[this.foodList[0].wordIndex];
   }
 
   get rightSymbol() {
-    return this.foodList[0] && this.currentPracticeSymbolList[this.foodList[0].wordIndex];
+    const currentPracticeSymbolList = symbols[this.subject];
+    return this.foodList[0] && currentPracticeSymbolList[this.foodList[0].wordIndex];
   }
 
   get score() {
