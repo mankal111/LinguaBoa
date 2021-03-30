@@ -46,10 +46,6 @@ export default class Store {
     window.requestAnimationFrame(this.update);
   }
 
-  setSnakePositions(newSnakePositions) {
-    this.snakePositions = newSnakePositions;
-  }
-
   get currentPracticeWordList() {
     return words[this.language][this.subject];
   }
