@@ -29,6 +29,7 @@ export default class Store {
       practiceWord: computed,
       rightSymbol: computed,
       score: computed,
+      occupiedPositions: computed,
       generateFood: action,
       turn: action,
       eat: action,
@@ -58,38 +59,51 @@ export default class Store {
     return this.foodEatenAmount * scorePerFood;
   }
 
-  getRandomBoardPosition() {
-    return [
-      Math.floor(Math.random() * boardSize + 1),
-      Math.floor(Math.random() * boardSize + 1)
-    ]
+  get occupiedPositions() {
+    return [...this.snakePositions, ...this.foodList];
+  }
+
+  getRandomBoardPosition = () => {
+    return {
+      x: Math.floor(Math.random() * boardSize + 1),
+      y: Math.floor(Math.random() * boardSize + 1)
+    }
+  }
+
+  positionIsOccupied = coordinates => {
+    const hasSameCoordinates = ({x, y}) => x === coordinates.x && y === coordinates.y;
+    return  this.occupiedPositions.some(hasSameCoordinates);
+  }
+
+  getRandomFreeBoardPosition = () => {
+    const randomPosition = this.getRandomBoardPosition();
+    if (this.positionIsOccupied(randomPosition))
+      return this.getRandomFreeBoardPosition();
+    return randomPosition;
+  }
+
+  isWordIndexAlreadyInGame(wordIndex) {
+    const hasSameWordIndexWithFood = (item) => item.wordIndex === wordIndex;
+    return this.foodList.some(hasSameWordIndexWithFood);
+  }
+
+  getRandomNonActiveWordIndex() {
+    const randomWordIndex = Math.floor(Math.random() * symbols[this.subject].length);
+    if (this.isWordIndexAlreadyInGame(randomWordIndex))
+      return this.getRandomNonActiveWordIndex();
+    return randomWordIndex;
   }
 
   generateFood = () => {
-    const occupiedPositions = [...this.snakePositions];
-    let positionIsOccupied; let wordAlreadyChosen;
-    const newFoodList = [];
-    for (let i = 0; i < 3; i += 1) {
-      let newFood;
-      do {
-        const [x, y] = this.getRandomBoardPosition();
-        positionIsOccupied = occupiedPositions.some(
-          (part) => part.x === x && part.y === y,
-        );
-        newFood = { x, y };
-      } while (positionIsOccupied);
-
-      do {
-        newFood.wordIndex = Math.floor(Math.random() * symbols[this.subject].length);
-        wordAlreadyChosen = newFoodList.some((word) => word.wordIndex === newFood.wordIndex);
-      } while (wordAlreadyChosen);
-      newFoodList.push(newFood);
-      occupiedPositions.push(newFood);
+    this.foodList = [];
+    while (this.foodList.length < 3) {
+      let food = this.getRandomFreeBoardPosition();
+      food.wordIndex = this.getRandomNonActiveWordIndex();
+      this.foodList.push(food);
     }
-    this.foodList = newFoodList;
     const msg = new SpeechSynthesisUtterance();
     msg.lang = words[this.language].code;
-    msg.text = words[this.language][this.subject][newFoodList[0].wordIndex];
+    msg.text = words[this.language][this.subject][this.foodList[0].wordIndex];
     window.speechSynthesis.speak(msg);
   }
 
