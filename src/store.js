@@ -10,7 +10,6 @@ export default class Store {
   directionVector = { x: 0, y: 0 };
   snakePositions = initialSnakePositions;
   snakeLength = snakeInitialSize;
-  speed = initialSpeed;
   alive = true;
   lastUpdate = 0;
 
@@ -20,6 +19,7 @@ export default class Store {
       foodEatenAmount: observable,
       snakePositions: observable,
       alive: observable,
+      practiceWordIndex: computed,
       practiceWord: computed,
       rightSymbol: computed,
       score: computed,
@@ -39,14 +39,17 @@ export default class Store {
     window.requestAnimationFrame(this.update);
   }
 
+  get practiceWordIndex() {
+    return this.foodList[0].wordIndex;
+  }
   get practiceWord() {
     const currentPracticeWordList = words[this.language][this.subject];
-    return this.foodList[0] && currentPracticeWordList[this.foodList[0].wordIndex];
+    return this.foodList[0] && currentPracticeWordList[this.practiceWordIndex];
   }
 
   get rightSymbol() {
     const currentPracticeSymbolList = symbols[this.subject];
-    return this.foodList[0] && currentPracticeSymbolList[this.foodList[0].wordIndex];
+    return this.foodList[0] && currentPracticeSymbolList[this.practiceWordIndex];
   }
 
   get score() {
@@ -119,10 +122,9 @@ export default class Store {
     }
   }
 
-  eat(foodIndex) {
+  eat(food) {
     // To avoid extra variables we define the first element as the correct element
-    if (foodIndex !== 0) this.alive = false;
-    this.speed += speedIncrement;
+    if (food.wordIndex !== this.practiceWordIndex) this.alive = false;
     this.foodEatenAmount++;
     this.generateFood();
   }
@@ -154,13 +156,14 @@ export default class Store {
     const newPartsList = [newHeadPos, ...newSnakeBody];
     this.snakePositions = newPartsList;
 
-    const foodIndex = foodList
-      .findIndex(food => (food.x === newHeadPos.x) && (food.y === newHeadPos.y));
-    if (foodIndex !== -1) this.eat(foodIndex);
+    const food = foodList
+      .find(food => (food.x === newHeadPos.x) && (food.y === newHeadPos.y));
+    if (food) this.eat(food);
   }
 
   update(now) {
-    if (now - this.lastUpdate > 1000 / this.speed) {
+    const speed = initialSpeed + this.foodEatenAmount * speedIncrement;
+    if (now - this.lastUpdate > 1000 / speed) {
       this.move();
       this.lastUpdate = now;
     }
