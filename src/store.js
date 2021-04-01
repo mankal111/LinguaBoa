@@ -10,7 +10,9 @@ export default class Store {
   directionVector = { x: 0, y: 0 };
   snakePositions = initialSnakePositions;
   snakeLength = snakeInitialSize;
-  alive = true;
+  wrongWord = false;
+  ateOwnPart = false;
+  outsideBoard = false;
   lastUpdate = 0;
 
   constructor({ subject, language }) {
@@ -18,7 +20,10 @@ export default class Store {
       foodList: observable,
       foodEatenAmount: observable,
       snakePositions: observable,
-      alive: observable,
+      wrongWord: observable,
+      ateOwnPart: observable,
+      outsideBoard: observable,
+      alive: computed,
       practiceWordIndex: computed,
       practiceWord: computed,
       rightSymbol: computed,
@@ -39,9 +44,14 @@ export default class Store {
     window.requestAnimationFrame(this.update);
   }
 
+  get alive() {
+    return !(this.wrongWord || this.ateOwnPart || this.outsideBoard);
+  }
+
   get practiceWordIndex() {
     return this.foodList[0].wordIndex;
   }
+
   get practiceWord() {
     const currentPracticeWordList = words[this.language][this.subject];
     return this.foodList[0] && currentPracticeWordList[this.practiceWordIndex];
@@ -123,8 +133,7 @@ export default class Store {
   }
 
   eat(food) {
-    // To avoid extra variables we define the first element as the correct element
-    if (food.wordIndex !== this.practiceWordIndex) this.alive = false;
+    if (food.wordIndex !== this.practiceWordIndex) this.wrongWord = true;
     this.foodEatenAmount++;
     this.generateFood();
   }
@@ -138,18 +147,17 @@ export default class Store {
       y: oldHeadPos.y + directionVector.y,
     };
 
-    const ateOwnPart = snakePositions.some(
+    this.ateOwnPart = snakePositions.some(
       part => part.x === newHeadPos.x && part.y === newHeadPos.y,
     );
-    const outsideBoard = newHeadPos.x <= 0 || newHeadPos.x > boardSize ||
+    this.outsideBoard = newHeadPos.x <= 0 || newHeadPos.x > boardSize ||
       newHeadPos.y <= 0 || newHeadPos.y > boardSize;
 
-    if (ateOwnPart || outsideBoard) {
-      this.alive = false;
+    if (!this.alive) {
       return;
     }
 
-    const targetLength = foodEatenAmount * snakeLengthIncrease;
+    const targetLength = snakeInitialSize + foodEatenAmount * snakeLengthIncrease;
     const currentLength = snakePositions.length;
     const shouldGrow = targetLength > currentLength;
     const newSnakeBody = shouldGrow ? snakePositions : snakePositions.slice(0, -1);
