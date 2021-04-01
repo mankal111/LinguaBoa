@@ -101,7 +101,7 @@ export default class Store {
       this.foodList.push(food);
     }
     const languageCode = words[this.language].code;
-    const text = words[this.language][this.subject][this.foodList[0].wordIndex];
+    const text = this.practiceWord;
     saySomething(text, languageCode);
   }
 
