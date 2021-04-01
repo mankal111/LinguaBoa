@@ -6,6 +6,8 @@ import Snake from './Snake';
 import Food from './Food';
 import Dialog from './Dialog';
 import { boardSize } from '../gameSettings';
+import { words } from '../words';
+import { saySomething } from '../utils';
 
 const Container = styled.div`
   display: flex;
@@ -84,6 +86,11 @@ const Game = observer(({ store, restart, exit }) => {
       window.removeEventListener('keydown', store.turn);
     }
   }, [store]);
+
+  useEffect(() => {
+    const languageCode = words[language].code;
+    saySomething(practiceWord, languageCode);
+  }, [practiceWord]);
 
   return (
     <Container>
