@@ -1,5 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { boardSize, initialSnakePositions, initialSpeed, scorePerFood, snakeInitialSize, snakeLengthIncrease, speedIncrement } from './gameSettings';
+import { saySomething } from './utils';
 import { words, symbols } from './words';
 
 export default class Store {
@@ -99,10 +100,9 @@ export default class Store {
       food.wordIndex = this.getRandomNonActiveWordIndex();
       this.foodList.push(food);
     }
-    const msg = new SpeechSynthesisUtterance();
-    msg.lang = words[this.language].code;
-    msg.text = words[this.language][this.subject][this.foodList[0].wordIndex];
-    window.speechSynthesis.speak(msg);
+    const languageCode = words[this.language].code;
+    const text = words[this.language][this.subject][this.foodList[0].wordIndex];
+    saySomething(text, languageCode);
   }
 
   turn = event => {
