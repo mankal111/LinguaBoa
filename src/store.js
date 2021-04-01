@@ -20,8 +20,6 @@ export default class Store {
       foodEatenAmount: observable,
       snakePositions: observable,
       directionVector: observable,
-      subject: observable,
-      language: observable,
       snakeLength: observable,
       speed: observable,
       alive: observable,
