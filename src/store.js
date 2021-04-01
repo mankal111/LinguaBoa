@@ -19,11 +19,7 @@ export default class Store {
       foodList: observable,
       foodEatenAmount: observable,
       snakePositions: observable,
-      directionVector: observable,
-      snakeLength: observable,
-      speed: observable,
       alive: observable,
-      lastUpdate: observable,
       practiceWord: computed,
       rightSymbol: computed,
       score: computed,
@@ -126,14 +122,13 @@ export default class Store {
   eat(foodIndex) {
     // To avoid extra variables we define the first element as the correct element
     if (foodIndex !== 0) this.alive = false;
-    this.snakeLength += snakeLengthIncrease;
     this.speed += speedIncrement;
     this.foodEatenAmount++;
     this.generateFood();
   }
 
   move() {
-    const { directionVector, snakePositions, snakeLength, foodList } = this;
+    const { directionVector, snakePositions, foodList, foodEatenAmount } = this;
     if (directionVector.x === 0 && directionVector.y === 0) return;
     const oldHeadPos = snakePositions[0];
     const newHeadPos = {
@@ -152,7 +147,9 @@ export default class Store {
       return;
     }
 
-    const shouldGrow = snakeLength > snakePositions.length;
+    const targetLength = foodEatenAmount * snakeLengthIncrease;
+    const currentLength = snakePositions.length;
+    const shouldGrow = targetLength > currentLength;
     const newSnakeBody = shouldGrow ? snakePositions : snakePositions.slice(0, -1);
     const newPartsList = [newHeadPos, ...newSnakeBody];
     this.snakePositions = newPartsList;
