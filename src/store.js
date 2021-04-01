@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-import { boardSize, initialSnakePositions, initialSpeed, scorePerFood, snakeInitialSize, snakeLengthIncrease, speedIncrement } from './gameSettings';
+import { boardSize, foodAmount, initialSnakePositions, initialSpeed, scorePerFood, snakeInitialSize, snakeLengthIncrease, speedIncrement } from './gameSettings';
 import { saySomething } from './utils';
 import { words, symbols } from './words';
 
@@ -95,7 +95,7 @@ export default class Store {
 
   generateFood = () => {
     this.foodList = [];
-    while (this.foodList.length < 3) {
+    while (this.foodList.length < foodAmount) {
       let food = this.getRandomFreeBoardPosition();
       food.wordIndex = this.getRandomNonActiveWordIndex();
       this.foodList.push(food);
