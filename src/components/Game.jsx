@@ -90,7 +90,7 @@ const Game = observer(({ store, restart, exit }) => {
   useEffect(() => {
     const languageCode = words[language].code;
     saySomething(practiceWord, languageCode);
-  }, [practiceWord]);
+  }, [foodList]);
 
   return (
     <Container>
