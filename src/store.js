@@ -39,8 +39,6 @@ export default class Store {
     this.subject = subject;
     this.language = language;
     this.generateFood();
-
-    this.update = this.update.bind(this);
     window.requestAnimationFrame(this.update);
   }
 
@@ -89,12 +87,12 @@ export default class Store {
     return randomPosition;
   }
 
-  isWordIndexAlreadyInGame(wordIndex) {
+  isWordIndexAlreadyInGame = wordIndex => {
     const hasSameWordIndexWithFood = (item) => item.wordIndex === wordIndex;
     return this.foodList.some(hasSameWordIndexWithFood);
   }
 
-  getRandomNonActiveWordIndex() {
+  getRandomNonActiveWordIndex = () => {
     const randomWordIndex = Math.floor(Math.random() * symbols[this.subject].length);
     if (this.isWordIndexAlreadyInGame(randomWordIndex))
       return this.getRandomNonActiveWordIndex();
@@ -132,13 +130,13 @@ export default class Store {
     }
   }
 
-  eat(food) {
+  eat = food => {
     if (food.wordIndex !== this.practiceWordIndex) this.wrongWord = true;
     this.foodEatenAmount++;
     this.generateFood();
   }
 
-  move() {
+  move = () => {
     const { directionVector, snakePositions, foodList, foodEatenAmount } = this;
     if (directionVector.x === 0 && directionVector.y === 0) return;
     const oldHeadPos = snakePositions[0];
@@ -150,6 +148,7 @@ export default class Store {
     this.ateOwnPart = snakePositions.some(
       part => part.x === newHeadPos.x && part.y === newHeadPos.y,
     );
+
     this.outsideBoard = newHeadPos.x <= 0 || newHeadPos.x > boardSize ||
       newHeadPos.y <= 0 || newHeadPos.y > boardSize;
 
@@ -169,7 +168,7 @@ export default class Store {
     if (food) this.eat(food);
   }
 
-  update(now) {
+  update = now => {
     const speed = initialSpeed + this.foodEatenAmount * speedIncrement;
     if (now - this.lastUpdate > 1000 / speed) {
       this.move();
