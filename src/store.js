@@ -160,8 +160,7 @@ export default class Store {
     const currentLength = snakePositions.length;
     const shouldGrow = targetLength > currentLength;
     const newSnakeBody = shouldGrow ? snakePositions : snakePositions.slice(0, -1);
-    const newPartsList = [newHeadPos, ...newSnakeBody];
-    this.snakePositions = newPartsList;
+    this.snakePositions = [newHeadPos, ...newSnakeBody];
 
     const food = foodList
       .find(food => (food.x === newHeadPos.x) && (food.y === newHeadPos.y));
