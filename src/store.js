@@ -162,9 +162,9 @@ export default class Store {
     const newSnakeBody = shouldGrow ? snakePositions : snakePositions.slice(0, -1);
     this.snakePositions = [newHeadPos, ...newSnakeBody];
 
-    const food = foodList
+    const foodOnHeadPosition = foodList
       .find(food => (food.x === newHeadPos.x) && (food.y === newHeadPos.y));
-    if (food) this.eat(food);
+    if (foodOnHeadPosition) this.eat(foodOnHeadPosition);
   }
 
   update = now => {
