@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react';
+import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Snake from './Snake';
 import Food from './Food';
 import Dialog from './Dialog';
-import { words, symbols } from '../words';
-import { boardSize, scorePerFood } from '../gameSettings';
+import { boardSize } from '../gameSettings';
+import { words } from '../words';
+import { saySomething } from '../utils';
 
 const Container = styled.div`
   display: flex;
@@ -74,117 +76,30 @@ const GameContainer = styled.div`
   }
 `
 
-const Game = ({ subject, language, exit }) => {
-  // TODO remove x y, position should be defined in one place
-  const x = Math.floor(boardSize / 2);
-  const y = Math.floor(boardSize / 2);
-  const initialSnakePositions = [{ x, y }, { x: x + 1, y }, { x: x + 2, y }];
-  const [foodList, setFoodList] = useState([]);
-  const [snakePositions, _setSnakePositions] = useState(initialSnakePositions);
-  const snakePositionsRef = useRef(snakePositions);
-  const setSnakePositions = data => {
-    snakePositionsRef.current = data;
-    _setSnakePositions(data);
-  }
-
-  const [directionVector, setDirectionVector] = useState({x: 0, y: 0});
-  const [score, setScore] = useState(0);
-  const [dialogIsOpen, setDialogIsOpen] = useState(false);
-  const [snakeKey, setSnakeKey] = useState(0);
-
-  const lose = () => setDialogIsOpen(true);
+const Game = observer(({ store, restart, exit }) => {
+  const { alive, score, foodList, practiceWord, rightSymbol, subject, language } = store;
 
   useEffect(() => {
-    generateFood();
-
-    window.addEventListener('keydown', setDirectionVectorFromKeyEvent);
+    window.addEventListener('keydown', store.turn);
     
     return () => {
-      window.removeEventListener('keydown', setDirectionVectorFromKeyEvent);
+      window.removeEventListener('keydown', store.turn);
     }
-  }, []);
+  }, [store]);
 
-  const setDirectionVectorFromKeyEvent = event => {
-    const snakePositions = snakePositionsRef.current;
-    switch (event.key) {
-      case 'ArrowUp':
-        if (snakePositions[0].y - snakePositions[1].y === 1) break;
-        setDirectionVector({ x: 0, y: -1 });
-        break;
-      case 'ArrowDown':
-        if (snakePositions[0].y - snakePositions[1].y === -1) break;
-        setDirectionVector({ x: 0, y: 1 });
-        break;
-      case 'ArrowLeft':
-        if (snakePositions[0].x - snakePositions[1].x === 1) break;
-        setDirectionVector({ x: -1, y: 0 });
-        break;
-      case 'ArrowRight':
-        if (snakePositions[0].x - snakePositions[1].x === -1) break;
-        setDirectionVector({ x: 1, y: 0 });
-        break;
-      default:
-    }
-  }
-
-  const generateFood = () => {
-    const occupiedPositions = [...foodList, ...snakePositions];
-    let positionIsOccupied; let wordAlreadyChosen;
-    const newFoodList = [];
-    for (let i = 0; i < 3; i += 1) {
-      let newFood;
-      do {
-        const x = Math.floor(Math.random() * boardSize + 1);
-        const y = Math.floor(Math.random() * boardSize + 1);
-        positionIsOccupied = occupiedPositions.some(
-          (part) => part.x === x && part.y === y,
-        );
-        newFood = { x, y };
-      } while (positionIsOccupied);
-
-      do {
-        newFood.wordIndex = Math.floor(Math.random() * symbols[subject].length);
-        wordAlreadyChosen = newFoodList.some((word) => word.wordIndex === newFood.wordIndex);
-      } while (wordAlreadyChosen);
-      newFoodList.push(newFood);
-      occupiedPositions.push(newFood);
-    }
-
-    setFoodList(newFoodList);
-
-    const msg = new SpeechSynthesisUtterance();
-    msg.lang = words[language].code;
-    msg.text = words[language][subject][newFoodList[0].wordIndex];
-    window.speechSynthesis.speak(msg);
-  }
-
-  const eatFood = () => {
-    setFoodList([]);
-    setScore(score + scorePerFood);
-    generateFood();
-  }
-
-  const restart = () => {
-    // By changing the key the snakeKey, we force the snake to reset
-    setSnakeKey(snakeKey + 1);
-    setFoodList([]);
-    setSnakePositions(initialSnakePositions);
-    setDirectionVector({x: 0, y: 0});
-    setScore(0);
-    setDialogIsOpen(false);
-    generateFood();
-  }
-  const practiceWord = foodList[0] && words[language][subject][foodList[0].wordIndex];
-  const rightSymbol = foodList[0] && symbols[subject][foodList[0].wordIndex];
+  useEffect(() => {
+    const languageCode = words[language].code;
+    saySomething(practiceWord, languageCode);
+  }, [foodList]);
 
   return (
     <Container>
-      {dialogIsOpen && <Dialog exit={exit} restart={restart} practiceWord={practiceWord} symbol={rightSymbol} language={language}/>}
+      {!alive && <Dialog exit={exit} playAgain={restart} practiceWord={practiceWord} symbol={rightSymbol} language={language}/>}
       <LeftControls>
-        <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowUp' })}>
+        <Button onClick={() => store.turn({ key: 'ArrowUp' })}>
           ↑
         </Button>
-        <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowDown' })}>
+        <Button onClick={() => store.turn({ key: 'ArrowDown' })}>
           ↓
         </Button>
       </LeftControls>
@@ -200,14 +115,7 @@ const Game = ({ subject, language, exit }) => {
           <Snake
             x={Math.floor(boardSize / 2)}
             y={Math.floor(boardSize / 2)}
-            newSnakePartPositions={setSnakePositions}
-            foodList={foodList}
-            eat={eatFood}
-            die={lose}
-            boardWidth={boardSize}
-            boardHeight={boardSize}
-            directionVector={directionVector}
-            key={snakeKey}
+            store={store}
           />
           {
             foodList.map((food) => (
@@ -223,20 +131,20 @@ const Game = ({ subject, language, exit }) => {
         </Board>
       </GameContainer>
       <RightControls>
-        <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowLeft' })}>
+        <Button onClick={() => store.turn({ key: 'ArrowLeft' })}>
           ←
         </Button>
-        <Button onClick={() => setDirectionVectorFromKeyEvent({ key: 'ArrowRight' })}>
+        <Button onClick={() => store.turn({ key: 'ArrowRight' })}>
           →
         </Button>
       </RightControls>
     </Container>
   );
-}
+})
 
 Game.propTypes = {
-  subject: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
+  store: PropTypes.object.isRequired,
+  restart: PropTypes.func,
   exit: PropTypes.func.isRequired,
 };
 
