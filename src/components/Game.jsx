@@ -113,8 +113,6 @@ const Game = observer(({ store, restart, exit }) => {
           size={boardSize}
         >
           <Snake
-            x={Math.floor(boardSize / 2)}
-            y={Math.floor(boardSize / 2)}
             store={store}
           />
           {
