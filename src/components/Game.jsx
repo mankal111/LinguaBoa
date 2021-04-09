@@ -77,7 +77,7 @@ const GameContainer = styled.div`
 `
 
 const Game = observer(({ store, restart, exit }) => {
-  const { alive, score, foodList, practiceWord, rightSymbol, subject, language } = store;
+  const { alive, score, foodList, practiceWord, rightSymbol, subject, language, wrongWord } = store;
 
   useEffect(() => {
     window.addEventListener('keydown', store.turn);
@@ -94,7 +94,16 @@ const Game = observer(({ store, restart, exit }) => {
 
   return (
     <Container>
-      {!alive && <Dialog exit={exit} playAgain={restart} practiceWord={practiceWord} symbol={rightSymbol} language={language}/>}
+      {!alive && (
+        <Dialog
+          exit={exit}
+          playAgain={restart}
+          wrongWord={wrongWord}
+          practiceWord={practiceWord}
+          symbol={rightSymbol}
+          language={language}
+        />
+      )}
       <LeftControls>
         <Button onClick={() => store.turn({ key: 'ArrowUp' })}>
           ↑
