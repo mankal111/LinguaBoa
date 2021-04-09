@@ -9,7 +9,6 @@ export default class Store {
   language = '';
   directionVector = { x: 0, y: 0 };
   snakePositions = initialSnakePositions;
-  snakeLength = snakeInitialSize;
   wrongWord = false;
   ateOwnPart = false;
   outsideBoard = false;
