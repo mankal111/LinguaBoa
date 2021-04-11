@@ -1,26 +1,14 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Controls from './Controls';
 import Snake from './Snake';
 import Food from './Food';
 import Dialog from './Dialog';
 import { boardSize } from '../gameSettings';
 import { words } from '../words';
 import { saySomething } from '../utils';
-
-const Container = styled.div`
-  display: flex;
-  height: 100%;
-  width: 100%;
-  justify-content: space-evenly;
-  flex-direction: row;
-  align-items: center;
-  user-select: none;
-  @media (orientation: portrait) {
-    flex-wrap: wrap;
-  }
-`
 
 const Board = styled.div`
   grid-template-rows: repeat(${props => props.size}, 1fr);
@@ -43,76 +31,41 @@ const Header = styled.div`
   margin: 1vw;
 `
 
-const Button = styled.button`
-  background-color: #63EC2E;
-  color: #004200;
-  font-family: "Reggae One";
-  font-size: 20px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 2px 2px 2px 5px #004200, inset 1px 1px 3px white;
-  height: 10vmin;
-  width: 10vmin;
-  margin: 10px;
-  text-align: center;
-  border-radius: 20px;
-`
-
-const LeftControls = styled.div`
-  @media (orientation: portrait) {
-    order: 2;
-  }
-`
-
-const RightControls = styled.div`
-  @media (orientation: portrait) {
-    order: 3;
-  }
-`
-
-const GameContainer = styled.div`
-  @media (orientation: portrait) {
-    order: 1;
-  }
-`
-
 const Game = observer(({ store, restart, exit }) => {
   const { alive, score, foodList, practiceWord, rightSymbol, subject, language, wrongWord } = store;
-
-  useEffect(() => {
-    window.addEventListener('keydown', store.turn);
-    
-    return () => {
-      window.removeEventListener('keydown', store.turn);
-    }
-  }, [store]);
 
   useEffect(() => {
     const languageCode = words[language].code;
     saySomething(practiceWord, languageCode);
   }, [foodList]);
 
+  const showDialog = () => {
+    if (!alive) return (
+      <Dialog
+        exit={exit}
+        playAgain={restart}
+        wrongWord={wrongWord}
+        practiceWord={practiceWord}
+        symbol={rightSymbol}
+        language={language}
+      />
+    )
+  }
+
+  const foodComponents = foodList.map((food) => (
+    <Food
+      x={food.x}
+      y={food.y}
+      key={`${food.x}-${food.y}`}
+      subject={subject}
+      wordIndex={food.wordIndex}
+    />
+  ));
+
   return (
-    <Container>
-      {!alive && (
-        <Dialog
-          exit={exit}
-          playAgain={restart}
-          wrongWord={wrongWord}
-          practiceWord={practiceWord}
-          symbol={rightSymbol}
-          language={language}
-        />
-      )}
-      <LeftControls>
-        <Button onClick={() => store.turn({ key: 'ArrowUp' })}>
-          ↑
-        </Button>
-        <Button onClick={() => store.turn({ key: 'ArrowDown' })}>
-          ↓
-        </Button>
-      </LeftControls>
-      <GameContainer>
+    <>
+      {showDialog()}
+      <Controls store={store}>
         <Header>
           <div>Linguaboa</div>
           <div>{practiceWord}</div>
@@ -124,28 +77,10 @@ const Game = observer(({ store, restart, exit }) => {
           <Snake
             store={store}
           />
-          {
-            foodList.map((food) => (
-              <Food
-                x={food.x}
-                y={food.y}
-                key={`${food.x}-${food.y}`}
-                subject={subject}
-                wordIndex={food.wordIndex}
-              />
-            ))
-          }
+          {foodComponents}
         </Board>
-      </GameContainer>
-      <RightControls>
-        <Button onClick={() => store.turn({ key: 'ArrowLeft' })}>
-          ←
-        </Button>
-        <Button onClick={() => store.turn({ key: 'ArrowRight' })}>
-          →
-        </Button>
-      </RightControls>
-    </Container>
+      </Controls>
+    </>
   );
 })
 
