@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./SnakePart.css";
 
 const SnakePart = ({x, y, type, from, to}) => {
     const directionToIntCode = dir => {
@@ -80,7 +79,6 @@ const SnakePart = ({x, y, type, from, to}) => {
             width: '100%',
             height: '100%'
         }}
-        //className={`snake-part snake-part-${type} ${directionStyle}`}
     >
         {tileSVG}
     </div>;
