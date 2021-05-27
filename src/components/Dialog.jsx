@@ -13,6 +13,7 @@ const Container = styled.div`
   border-radius: 10px;
   box-shadow: 5px 5px 15px black, inset 1px 1px 3px white, inset -1px -1px 3px black;
   padding: 20px;
+  z-index: 1;
 `
 const Message = styled.div``
 
